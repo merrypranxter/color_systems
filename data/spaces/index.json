@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "description": "Index of color space definitions in this repo",
+  "spaces": [
+    {
+      "id": "srgb",
+      "name": "sRGB",
+      "file": "srgb.json",
+      "type": "display",
+      "perceptuallyUniform": false,
+      "components": ["R", "G", "B"],
+      "range": [[0,1],[0,1],[0,1]],
+      "notes": "Standard display space. Nonlinear (gamma-encoded). Do NOT interpolate here."
+    },
+    {
+      "id": "oklab",
+      "name": "OKLab",
+      "file": "oklab.json",
+      "type": "perceptual",
+      "perceptuallyUniform": true,
+      "components": ["L", "a", "b"],
+      "range": [[0,1],[-0.5,0.5],[-0.5,0.5]],
+      "notes": "Best current perceptual space. Use for interpolation, gradients, palette generation."
+    },
+    {
+      "id": "cielab",
+      "name": "CIELAB (L*a*b*)",
+      "file": "cielab.json",
+      "type": "perceptual",
+      "perceptuallyUniform": true,
+      "components": ["L*", "a*", "b*"],
+      "range": [[0,100],[-128,127],[-128,127]],
+      "notes": "The OG perceptual space. DeltaE color difference math lives here."
+    },
+    {
+      "id": "hsl",
+      "name": "HSL",
+      "file": "hsl.json",
+      "type": "cylindrical",
+      "perceptuallyUniform": false,
+      "components": ["H", "S", "L"],
+      "range": [[0,360],[0,1],[0,1]],
+      "notes": "Cylindrical sRGB remapping. Harmony algebra uses H channel. Not perceptual."
+    },
+    {
+      "id": "hsv",
+      "name": "HSV (HSB)",
+      "file": "hsv.json",
+      "type": "cylindrical",
+      "perceptuallyUniform": false,
+      "components": ["H", "S", "V"],
+      "range": [[0,360],[0,1],[0,1]],
+      "notes": "Similar to HSL. V=1 gives saturated colors. Common in creative tools."
+    }
+  ]
+}

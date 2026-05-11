@@ -1,0 +1,46 @@
+{
+  "id": "srgb",
+  "name": "sRGB",
+  "standard": "IEC 61966-2-1",
+  "year": 1996,
+  "description": "Standard Red Green Blue — the default color space for the web, images, and most displays. Gamma-encoded (non-linear). Defined with respect to a D65 white point.",
+  "components": {
+    "R": { "name": "Red", "range": [0, 1] },
+    "G": { "name": "Green", "range": [0, 1] },
+    "B": { "name": "Blue", "range": [0, 1] }
+  },
+  "gamma": {
+    "encoding": "piecewise power function",
+    "forward": "C_srgb = C_linear * 12.92 if C_linear <= 0.0031308, else 1.055 * C_linear^(1/2.4) - 0.055",
+    "inverse": "C_linear = C_srgb / 12.92 if C_srgb <= 0.04045, else ((C_srgb + 0.055) / 1.055)^2.4",
+    "approximate_gamma": 2.2
+  },
+  "primaries": {
+    "white_point": "D65 (6504 K)",
+    "red":   { "xy": [0.6400, 0.3300], "XYZ": [0.4124, 0.2126, 0.0193] },
+    "green": { "xy": [0.3000, 0.6000], "XYZ": [0.3576, 0.7152, 0.1192] },
+    "blue":  { "xy": [0.1500, 0.0600], "XYZ": [0.1805, 0.0722, 0.9505] }
+  },
+  "to_xyz_matrix": [
+    [0.4124564, 0.3575761, 0.1804375],
+    [0.2126729, 0.7151522, 0.0721750],
+    [0.0193339, 0.1191920, 0.9503041]
+  ],
+  "from_xyz_matrix": [
+    [ 3.2404542, -1.5371385, -0.4985314],
+    [-0.9692660,  1.8760108,  0.0415560],
+    [ 0.0556434, -0.2040259,  1.0572252]
+  ],
+  "use_cases": [
+    "Final display output",
+    "Web and CSS colors",
+    "Image file storage (PNG, JPEG)",
+    "Input to any color conversion pipeline"
+  ],
+  "do_not_use_for": [
+    "Interpolation — go through OKLab instead",
+    "Color distance calculations — use CIELAB ΔE",
+    "Hue rotation — use OKLCh"
+  ],
+  "art_notes": "sRGB is the lingua franca of digital color — everything eventually lands here for display. But it's a terrible space for arithmetic. The gamma curve is designed for display hardware, not math. Always linearize before doing any computation."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "hsv",
+  "name": "HSV (HSB)",
+  "description": "Hue-Saturation-Value (also called HSB: Hue-Saturation-Brightness). A cylindrical remapping of sRGB. Similar to HSL but with a different model: V=1 always gives the most saturated color at that hue, which maps more intuitively to artist 'color pickers'.",
+  "components": {
+    "H": {
+      "name": "Hue",
+      "range": [0, 360],
+      "unit": "degrees",
+      "notes": "Same hue wheel as HSL. 0=Red, 60=Yellow, 120=Green, 180=Cyan, 240=Blue, 300=Magenta."
+    },
+    "S": {
+      "name": "Saturation",
+      "range": [0, 1],
+      "notes": "0 = achromatic (gray), 1 = fully saturated. Unlike HSL, saturation meaning is consistent at all values of V."
+    },
+    "V": {
+      "name": "Value (Brightness)",
+      "range": [0, 1],
+      "notes": "0 = black, 1 = maximum brightness for that hue. At V=1, S=1 you get the pure hue."
+    }
+  },
+  "vs_hsl": {
+    "key_difference": "In HSL, L=0.5 gives pure hue. In HSV, V=1 gives pure hue. HSV matches the mental model of 'adding black' (decrease V) or 'adding white' (decrease S).",
+    "HSL_pure_hue": "H=θ, S=1, L=0.5",
+    "HSV_pure_hue": "H=θ, S=1, V=1",
+    "conversion": {
+      "HSL_to_HSV": [
+        "L2 = L * (1 - S/2) if L < 0.5, else L + S*(1-L)/2",
+        "V = L2 + min(L2, 1-L2)",
+        "S_hsv = 0 if V=0, else 2*(1 - L2/V)"
+      ],
+      "HSV_to_HSL": [
+        "L = V * (1 - S/2)",
+        "S_hsl = 0 if L=0 or L=1, else (V-L)/min(L, 1-L)"
+      ]
+    }
+  },
+  "use_cases": [
+    "Color pickers in creative applications (Photoshop, Figma, etc.)",
+    "Artistic 'tints and shades' model",
+    "When you want saturation to mean the same thing regardless of brightness",
+    "Generating tint/shade scales"
+  ],
+  "harmony_algebra": {
+    "note": "H channel is identical to HSL — all harmony angle operations apply equally. Convert to HSL for harmony math, then back to HSV for display if needed."
+  },
+  "art_notes": "HSV is what most color pickers use under the hood. The square/rectangle color picker grid is HSV space — one axis is S, the other is V, with H set by the hue slider. Useful to understand when building your own color tools."
+}

@@ -1,0 +1,59 @@
+{
+  "id": "oklab",
+  "name": "OKLab",
+  "author": "Björn Ottosson",
+  "year": 2020,
+  "reference": "https://bottosson.github.io/posts/oklab/",
+  "description": "Perceptually uniform color space designed for image processing and color manipulation. Outperforms CIELAB for hue uniformity. Based on a linear transform of the Bradford-adapted XYZ via a non-linear cube root.",
+  "components": {
+    "L": {
+      "name": "Lightness",
+      "range": [0, 1],
+      "notes": "0 = black, 1 = white. Perceptually linear."
+    },
+    "a": {
+      "name": "Green-Red axis",
+      "range": [-0.5, 0.5],
+      "notes": "Negative = green, positive = red/magenta"
+    },
+    "b": {
+      "name": "Blue-Yellow axis",
+      "range": [-0.5, 0.5],
+      "notes": "Negative = blue, positive = yellow"
+    }
+  },
+  "cylindrical_form": {
+    "name": "OKLCh",
+    "components": ["L", "C", "h"],
+    "C_formula": "sqrt(a^2 + b^2)",
+    "h_formula": "atan2(b, a) in degrees",
+    "notes": "OKLCh is the cylindrical version. Use h for hue rotation, C for chroma control. Much better than HSL for perceptual hue harmony."
+  },
+  "conversion": {
+    "from_linear_srgb": {
+      "steps": [
+        "Apply linear sRGB to LMS matrix",
+        "Apply cube root: LMS' = cbrt(LMS)",
+        "Apply LMS' to Lab matrix"
+      ],
+      "matrix_linear_to_lms": [
+        [0.4122214708, 0.5363325363, 0.0514459929],
+        [0.2119034982, 0.6806995451, 0.1073969566],
+        [0.0883024619, 0.2817188376, 0.6299787005]
+      ],
+      "matrix_lms_to_lab": [
+        [0.2104542553, 0.7936177850, -0.0040720468],
+        [1.9779984951, -2.4285922050, 0.4505937099],
+        [0.0259040371, 0.7827717662, -0.8086757660]
+      ]
+    }
+  },
+  "use_cases": [
+    "Gradient interpolation (no muddy middle colors)",
+    "Palette generation (equal perceptual spacing)",
+    "Hue rotation (use OKLCh h channel)",
+    "Accessible color contrast checking",
+    "Smooth color animations in GLSL"
+  ],
+  "art_notes": "Interpolating in OKLab gives you the 'true' path between colors as your eyes perceive it. Gradients don't go gray in the middle. Hue rotations stay equally bright. This is the space you actually want."
+}

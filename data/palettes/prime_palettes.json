@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "description": "Palettes generated using prime number gaps as hue spacing",
+  "math_basis": {
+    "primes": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47],
+    "prime_gaps": [1, 2, 2, 4, 2, 4, 2, 4, 6, 2, 6, 4, 2, 4],
+    "note": "Prime gaps are differences between consecutive primes. Irregular but deterministic. Scale factor maps gap magnitude to hue degrees."
+  },
+  "palettes": [
+    {
+      "id": "prime_gap_6",
+      "name": "Prime Gap 6-color (scale=30)",
+      "n_colors": 6,
+      "generation_method": "prime_gaps",
+      "base_hue": 0,
+      "scale": 30,
+      "saturation": 0.85,
+      "lightness": 0.55,
+      "hues": [0, 0, 60, 120, 240, 300],
+      "colors_hsl": [
+        {"h": 0,   "s": 0.85, "l": 0.55, "hex": "#E8453D"},
+        {"h": 60,  "s": 0.85, "l": 0.55, "hex": "#D9C227"},
+        {"h": 120, "s": 0.85, "l": 0.55, "hex": "#3DBF4A"},
+        {"h": 240, "s": 0.85, "l": 0.55, "hex": "#3D5AE8"},
+        {"h": 300, "s": 0.85, "l": 0.55, "hex": "#C43DBF"},
+        {"h": 360, "s": 0.85, "l": 0.55, "hex": "#E8453D"}
+      ],
+      "aesthetic_notes": "Controlled chaos. Small gaps cluster; large prime gaps (twin primes) create jumps. Deterministic but feels random."
+    },
+    {
+      "id": "prime_gap_8_high_scale",
+      "name": "Prime Gap 8-color (scale=50)",
+      "n_colors": 8,
+      "generation_method": "prime_gaps",
+      "base_hue": 24,
+      "scale": 50,
+      "saturation": 0.9,
+      "lightness": 0.5,
+      "hues": [24, 24, 124, 224, 424, 524, 724, 824],
+      "aesthetic_notes": "High scale factor amplifies prime gap drama. Wide spacing with occasional clusters at twin primes."
+    },
+    {
+      "id": "prime_density_dark",
+      "name": "Prime Density Dark Palette",
+      "n_colors": 12,
+      "generation_method": "prime_gaps",
+      "base_hue": 200,
+      "scale": 20,
+      "saturation": 0.7,
+      "lightness": 0.35,
+      "aesthetic_notes": "Low lightness, medium scale. Good for dark-mode UIs or night-sky aesthetics. Prime gaps give it organic irregularity."
+    }
+  ],
+  "generation_code": {
+    "language": "javascript",
+    "function": "primePalette",
+    "source": "utils/sequence_to_palette.js"
+  }
+}
