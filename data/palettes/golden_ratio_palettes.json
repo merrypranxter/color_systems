@@ -48,6 +48,16 @@
       "base_hue": 30,
       "saturation_range": [1.0, 0.4],
       "lightness": 0.55,
+      "colors_hsl": [
+        {"h": 30,      "s": 1.0,   "l": 0.55, "hex": "#ff8c1a"},
+        {"h": 167.508, "s": 0.914, "l": 0.55, "hex": "#23f5c9"},
+        {"h": 305.016, "s": 0.829, "l": 0.55, "hex": "#eb2ddb"},
+        {"h": 82.523,  "s": 0.743, "l": 0.55, "hex": "#a1e137"},
+        {"h": 220.031, "s": 0.657, "l": 0.55, "hex": "#4173d8"},
+        {"h": 357.539, "s": 0.571, "l": 0.55, "hex": "#ce4b50"},
+        {"h": 135.047, "s": 0.486, "l": 0.55, "hex": "#55c470"},
+        {"h": 272.554, "s": 0.4,   "l": 0.55, "hex": "#905eba"}
+      ],
       "aesthetic_notes": "Saturation decreases as hue spreads. Starts vivid, relaxes into muted tones. φ-proportioned saturation steps."
     },
     {
@@ -58,6 +68,18 @@
       "base_hue": 0,
       "saturation": 0.65,
       "lightness": 0.3,
+      "colors_hsl": [
+        {"h": 0,       "s": 0.65, "l": 0.3, "hex": "#7e1b1b"},
+        {"h": 137.508, "s": 0.65, "l": 0.3, "hex": "#1b7e38"},
+        {"h": 275.016, "s": 0.65, "l": 0.3, "hex": "#551b7e"},
+        {"h": 52.523,  "s": 0.65, "l": 0.3, "hex": "#7e721b"},
+        {"h": 190.031, "s": 0.65, "l": 0.3, "hex": "#1b6e7e"},
+        {"h": 327.539, "s": 0.65, "l": 0.3, "hex": "#7e1b51"},
+        {"h": 105.047, "s": 0.65, "l": 0.3, "hex": "#347e1b"},
+        {"h": 242.554, "s": 0.65, "l": 0.3, "hex": "#1f1b7e"},
+        {"h": 20.062,  "s": 0.65, "l": 0.3, "hex": "#7e3c1b"},
+        {"h": 157.570, "s": 0.65, "l": 0.3, "hex": "#1b7e59"}
+      ],
       "aesthetic_notes": "Rich, jewel-tone palette. No two colors are similar. Works as a 10-color categorical palette for dark-mode data visualization."
     }
   ],

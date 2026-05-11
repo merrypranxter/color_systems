@@ -45,5 +45,19 @@
   "harmony_algebra": {
     "note": "H channel is identical to HSL — all harmony angle operations apply equally. Convert to HSL for harmony math, then back to HSV for display if needed."
   },
+  "use_cases": [
+    "Color pickers in creative applications (Photoshop, Figma, etc.)",
+    "Artistic 'tints and shades' model",
+    "When you want saturation to mean the same thing regardless of brightness",
+    "Generating tint/shade scales",
+    "CSS color(display-p3) style interfaces where additive mixing intuition helps"
+  ],
+  "known_issues": [
+    "Not perceptually uniform — equal V steps don't look equal",
+    "Yellow at full V=1, S=1 looks much brighter than blue at V=1, S=1",
+    "H is undefined when S=0 (achromatic)",
+    "Interpolation between two HSV values crosses ugly unsaturated territory",
+    "V=1 does not mean 'bright' perceptually — it means maximum channel value"
+  ],
   "art_notes": "HSV is what most color pickers use under the hood. The square/rectangle color picker grid is HSV space — one axis is S, the other is V, with H set by the hue slider. Useful to understand when building your own color tools."
 }

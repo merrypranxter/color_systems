@@ -37,12 +37,12 @@ vec3 OKLab_to_linearSRGB(vec3 c) {
     );
 }
 
-// sRGB gamma (display) to linear sRGB
+// sRGB gamma (display) to linear sRGB — per-channel linearization
 float sRGB_to_linear(float x) {
     return x <= 0.04045 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4);
 }
 
-// Linear sRGB to sRGB gamma
+// Linear sRGB to sRGB gamma — per-channel encoding
 float linear_to_sRGB(float x) {
     return x <= 0.0031308 ? x * 12.92 : 1.055 * pow(x, 1.0/2.4) - 0.055;
 }
@@ -61,17 +61,17 @@ vec3 OKLab_to_sRGB(vec3 c) {
 
 // OKLab to OKLCh (cylindrical form — use for hue rotation)
 vec3 OKLab_to_OKLCh(vec3 lab) {
-    float C = length(lab.yz);          // chroma
+    float C = length(lab.yz);          // chroma = sqrt(a² + b²)
     float h = atan(lab.z, lab.y);      // hue angle in radians
     return vec3(lab.x, C, h);
 }
 
-// OKLCh to OKLab
+// OKLCh to OKLab — cylindrical to Cartesian
 vec3 OKLCh_to_OKLab(vec3 lch) {
     return vec3(lch.x, lch.y * cos(lch.z), lch.y * sin(lch.z));
 }
 
-// Perceptual interpolation between two sRGB colors via OKLab
+// Perceptual interpolation between two sRGB colors via OKLab — no muddy midpoints
 vec3 oklabMix(vec3 colA, vec3 colB, float t) {
     vec3 labA = sRGB_to_OKLab(colA);
     vec3 labB = sRGB_to_OKLab(colB);
@@ -79,10 +79,37 @@ vec3 oklabMix(vec3 colA, vec3 colB, float t) {
     return OKLab_to_sRGB(mixed);
 }
 
-// Rotate hue by angle (radians) in OKLCh space, returns sRGB
+// Rotate hue by angle (radians) in OKLCh space, returns sRGB — brightness stays constant
 vec3 rotateHue(vec3 srgbColor, float angleRad) {
     vec3 lab = sRGB_to_OKLab(srgbColor);
     vec3 lch = OKLab_to_OKLCh(lab);
     lch.z += angleRad;
     return OKLab_to_sRGB(OKLCh_to_OKLab(lch));
+}
+
+// ─── Extended functions ───────────────────────────────────────────────────────
+
+// Sample a multi-stop gradient in OKLab space — avoids the muddy grays of sRGB gradients
+// a and b are sRGB endpoints; t in [0,1]; returns sRGB
+vec3 oklabGradient(vec3 a, vec3 b, float t) {
+    // Linear OKLab interpolation: perceptually straight path, no hue drift or gray mud
+    return oklabMix(a, b, t);
+}
+
+// Perceptual contrast between two sRGB colors — Michelson-style contrast in OKLab L channel
+// Returns 0.0 (same lightness) to 1.0 (black vs white)
+float perceptualContrast(vec3 a, vec3 b) {
+    float La = sRGB_to_OKLab(a).x;
+    float Lb = sRGB_to_OKLab(b).x;
+    float hi = max(La, Lb);
+    float lo = min(La, Lb);
+    // Michelson contrast: (hi - lo) / (hi + lo + eps)
+    return (hi - lo) / (hi + lo + 0.001);
+}
+
+// Boost chroma in OKLab space by a multiplier — amplifies colorfulness without hue shift
+// amount: 1.0 = unchanged, 2.0 = doubled chroma, 0.0 = gray
+vec3 chromaBoost(vec3 lab, float amount) {
+    // Scale the a and b channels symmetrically, preserving hue angle
+    return vec3(lab.x, lab.y * amount, lab.z * amount);
 }

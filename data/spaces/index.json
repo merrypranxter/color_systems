@@ -51,6 +51,16 @@
       "components": ["H", "S", "V"],
       "range": [[0,360],[0,1],[0,1]],
       "notes": "Similar to HSL. V=1 gives saturated colors. Common in creative tools."
+    },
+    {
+      "id": "oklch",
+      "name": "OKLCh",
+      "file": "oklch.json",
+      "type": "cylindrical-perceptual",
+      "perceptuallyUniform": true,
+      "components": ["L", "C", "h"],
+      "range": [[0,1],[0,0.4],[0,360]],
+      "notes": "Cylindrical OKLab. The best space for creative color work. h for hue rotation, C for chroma, L for brightness — all perceptually uniform."
     }
   ]
 }

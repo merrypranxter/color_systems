@@ -37,6 +37,16 @@
       "saturation": 0.9,
       "lightness": 0.5,
       "hues": [24, 24, 124, 224, 424, 524, 724, 824],
+      "colors_hsl": [
+        {"h": 24,  "gap": 0, "s": 0.9, "l": 0.5, "hex": "#f2690d"},
+        {"h": 24,  "gap": 1, "s": 0.9, "l": 0.5, "hex": "#f2690d"},
+        {"h": 74,  "gap": 2, "s": 0.9, "l": 0.5, "hex": "#bdf20d"},
+        {"h": 174, "gap": 2, "s": 0.9, "l": 0.5, "hex": "#0df2db"},
+        {"h": 274, "gap": 4, "s": 0.9, "l": 0.5, "hex": "#8f0df2"},
+        {"h": 114, "gap": 2, "s": 0.9, "l": 0.5, "hex": "#24f20d"},
+        {"h": 214, "gap": 4, "s": 0.9, "l": 0.5, "hex": "#0d70f2"},
+        {"h": 54,  "gap": 2, "s": 0.9, "l": 0.5, "hex": "#f2db0d"}
+      ],
       "aesthetic_notes": "High scale factor amplifies prime gap drama. Wide spacing with occasional clusters at twin primes."
     },
     {
@@ -48,7 +58,44 @@
       "scale": 20,
       "saturation": 0.7,
       "lightness": 0.35,
+      "colors_hsl": [
+        {"h": 200, "gap": 0, "s": 0.7, "l": 0.35, "hex": "#1b6e98"},
+        {"h": 200, "gap": 1, "s": 0.7, "l": 0.35, "hex": "#1b6e98"},
+        {"h": 220, "gap": 2, "s": 0.7, "l": 0.35, "hex": "#1b4498"},
+        {"h": 260, "gap": 2, "s": 0.7, "l": 0.35, "hex": "#441b98"},
+        {"h": 300, "gap": 4, "s": 0.7, "l": 0.35, "hex": "#981b98"},
+        {"h": 20,  "gap": 2, "s": 0.7, "l": 0.35, "hex": "#98441b"},
+        {"h": 60,  "gap": 4, "s": 0.7, "l": 0.35, "hex": "#98981b"},
+        {"h": 140, "gap": 2, "s": 0.7, "l": 0.35, "hex": "#1b9844"},
+        {"h": 180, "gap": 4, "s": 0.7, "l": 0.35, "hex": "#1b9898"},
+        {"h": 260, "gap": 6, "s": 0.7, "l": 0.35, "hex": "#441b98"},
+        {"h": 20,  "gap": 2, "s": 0.7, "l": 0.35, "hex": "#98441b"},
+        {"h": 60,  "gap": 6, "s": 0.7, "l": 0.35, "hex": "#98981b"}
+      ],
       "aesthetic_notes": "Low lightness, medium scale. Good for dark-mode UIs or night-sky aesthetics. Prime gaps give it organic irregularity."
+    },
+    {
+      "id": "prime_gap_warm_10",
+      "name": "Prime Gap Warm 10-color (scale=40)",
+      "n_colors": 10,
+      "generation_method": "prime_gaps",
+      "base_hue": 60,
+      "scale": 40,
+      "saturation": 0.75,
+      "lightness": 0.6,
+      "colors_hsl": [
+        {"h": 60,  "gap": 0, "s": 0.75, "l": 0.6, "hex": "#e6e64c"},
+        {"h": 60,  "gap": 1, "s": 0.75, "l": 0.6, "hex": "#e6e64c"},
+        {"h": 100, "gap": 2, "s": 0.75, "l": 0.6, "hex": "#7fe64c"},
+        {"h": 180, "gap": 2, "s": 0.75, "l": 0.6, "hex": "#4ce6e6"},
+        {"h": 260, "gap": 4, "s": 0.75, "l": 0.6, "hex": "#804ce6"},
+        {"h": 60,  "gap": 2, "s": 0.75, "l": 0.6, "hex": "#e6e64c"},
+        {"h": 140, "gap": 4, "s": 0.75, "l": 0.6, "hex": "#4ce680"},
+        {"h": 300, "gap": 2, "s": 0.75, "l": 0.6, "hex": "#e64ce6"},
+        {"h": 20,  "gap": 4, "s": 0.75, "l": 0.6, "hex": "#e6804c"},
+        {"h": 180, "gap": 6, "s": 0.75, "l": 0.6, "hex": "#4ce6e6"}
+      ],
+      "aesthetic_notes": "Warm base hue (yellow), medium-high lightness, moderate scale. Prime gap jumps are visible as brightness shifts across the wheel. The gap=6 at end (prime desert: 23→29) creates a dramatic long jump back to cyan."
     }
   ],
   "generation_code": {

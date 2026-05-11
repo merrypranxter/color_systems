@@ -47,10 +47,20 @@
     },
     "note": "All operations are mod 360. Results are HSL hues — convert to sRGB for display."
   },
+  "use_cases": [
+    "Harmony angle arithmetic (H channel)",
+    "Generating color wheels and picker UIs",
+    "CSS color values (hsl() and oklch() now preferred)",
+    "Quick tint/shade generation via L channel",
+    "Mapping mathematical sequences to color (use H as hue slot)"
+  ],
   "known_issues": [
     "Yellow (60°) appears much brighter than blue (240°) at same S and L",
     "Interpolation goes through unsaturated middle (hue wraps)",
     "Not suitable for perceptual color design — use OKLab/OKLCh instead",
-    "S is context-dependent (achromatic colors have undefined H)"
-  ]
+    "S is context-dependent (achromatic colors have undefined H)",
+    "Equal saturation values look very different across hues",
+    "L=0.5 is NOT perceptual midpoint — it's geometric midpoint"
+  ],
+  "art_notes": "HSL is the color wheel made algebraic. The H channel is a perfect circle — it's where harmony math lives. But the S and L channels lie: equal L looks wildly unequal across hues (yellow at L=0.55 screams, blue at L=0.55 whispers). Use HSL for angle math and quick prototyping, then migrate to OKLCh when you need results that actually look right."
 }
