@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "source": "Johannes Itten, 'The Art of Color' (1961)",
+  "description": "Itten's 7 color contrasts formalized as computable properties",
+  "contrasts": [
+    {
+      "id": "hue_contrast",
+      "name": "Contrast of Hue",
+      "description": "Colors at maximum hue difference. Purest colors at maximum saturation.",
+      "formal_definition": "High ΔHue in HSL (approaching 180° for pairs), S = 1.0, L = 0.5",
+      "compute": "ΔHue = |H1 - H2| mod 360, then min(ΔHue, 360-ΔHue). High if > 120°.",
+      "maximum_example": "Pure red (#FF0000), pure yellow (#FFFF00), pure blue (#0000FF) triad",
+      "intensity": "Strongest with primary triad",
+      "art_notes": "The most basic contrast. Primitive visual energy. Use for maximum vibrancy."
+    },
+    {
+      "id": "light_dark_contrast",
+      "name": "Contrast of Light and Dark",
+      "description": "Contrast between luminance values. White/black is maximum.",
+      "formal_definition": "High ΔLightness. In CIELAB: high ΔL*.",
+      "compute": "ΔL = |L1 - L2| in HSL or L* in CIELAB. Maximum = black vs white.",
+      "art_notes": "The most powerful spatial contrast. Defines legibility and depth."
+    },
+    {
+      "id": "cold_warm_contrast",
+      "name": "Contrast of Cold and Warm",
+      "description": "Blues/greens (cold) vs oranges/reds (warm). Strongest: blue-orange pair.",
+      "formal_definition": "Warm hues: H ∈ [0°, 90°] ∪ [330°, 360°]. Cold hues: H ∈ [150°, 270°].",
+      "max_pair": { "warm": 30, "cold": 210, "note": "Orange vs. Azure — maximum warm/cold" },
+      "art_notes": "Creates spatial depth — warm advances, cool recedes. Psychedelic art abuse of this creates vibration."
+    },
+    {
+      "id": "complementary_contrast",
+      "name": "Complementary Contrast",
+      "description": "Colors opposite on the wheel. At equal saturation, maximum visual vibration.",
+      "formal_definition": "ΔHue ≈ 180°",
+      "vibration_threshold": "Both colors at S > 0.8, L ≈ 0.5 — will vibrate at small sizes",
+      "art_notes": "Adjacent complementary patches vibrate, creating optical illusions. Exploit heavily in moiré context."
+    },
+    {
+      "id": "simultaneous_contrast",
+      "name": "Simultaneous Contrast",
+      "description": "A color appears to change based on its surrounding color. Not a fixed property — an interaction effect.",
+      "formal_definition": "Perceived color of C shifts toward the complement of the surrounding color S_color.",
+      "example": "Gray on orange background looks bluish. Same gray on blue looks orangeish.",
+      "compute": "Not a static property — requires context. Related to lateral inhibition in the visual system.",
+      "art_notes": "THE most important effect for generative art. Your background is never neutral."
+    },
+    {
+      "id": "saturation_contrast",
+      "name": "Contrast of Saturation",
+      "description": "Pure saturated color vs. muted/grayed color.",
+      "formal_definition": "High ΔSaturation. One color S = 1.0, other S < 0.3.",
+      "art_notes": "A single saturated color against a field of desaturated colors screams. Used in Expressionism. Use for focal points."
+    },
+    {
+      "id": "quantity_contrast",
+      "name": "Contrast of Extension (Quantity)",
+      "description": "The relationship between the area of a color and its visual weight. Itten's 'harmony proportions'.",
+      "formal_definition": "To achieve optical balance, area ratios should be inverse to luminance values.",
+      "itten_proportions": {
+        "yellow_violet": "1:3",
+        "orange_blue": "1:2",
+        "red_green": "1:1",
+        "note": "Yellow is 3x brighter than violet, so needs 1/3 the area to feel balanced"
+      },
+      "luminance_weights": { "yellow": 9, "orange": 8, "red": 6, "violet": 3, "blue": 4, "green": 6 },
+      "art_notes": "Breaking these proportions is how you create tension and imbalance intentionally. Very useful for psychedelic overload aesthetics."
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "description": "Palettes derived from golden ratio subdivisions and proportions",
+  "math_basis": {
+    "golden_ratio": 1.6180339887498948,
+    "golden_ratio_conjugate": 0.6180339887498948,
+    "golden_angle_degrees": 137.50776405003785,
+    "golden_angle_radians": 2.399963229728653,
+    "fibonacci_sequence": [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233],
+    "note": "Golden ratio φ = (1+√5)/2. Golden angle = 360°/φ² = 360°×(2-φ). All golden proportions are self-similar under φ scaling."
+  },
+  "palettes": [
+    {
+      "id": "golden_triad",
+      "name": "Golden Triad",
+      "n_colors": 3,
+      "description": "Three colors at golden-angle intervals starting from 0°",
+      "hues": [0, 137.508, 275.016],
+      "colors_hsl": [
+        {"h": 0,       "s": 0.82, "l": 0.58, "hex": "#E85955"},
+        {"h": 137.508, "s": 0.82, "l": 0.48, "hex": "#289A5E"},
+        {"h": 275.016, "s": 0.82, "l": 0.58, "hex": "#8A42D9"}
+      ],
+      "aesthetic_notes": "Three maximally spread hues. Red-teal-violet. More interesting than primary triadic, less predictable."
+    },
+    {
+      "id": "golden_pentatonic",
+      "name": "Golden Pentatonic",
+      "n_colors": 5,
+      "description": "Five golden-angle hues. Perfect for 5-element systems.",
+      "hues": [0, 137.508, 275.016, 52.524, 190.032],
+      "saturation": 0.80,
+      "lightness": 0.55,
+      "colors_hsl": [
+        {"h": 0,       "s": 0.80, "l": 0.55, "hex": "#E85555"},
+        {"h": 137.508, "s": 0.80, "l": 0.55, "hex": "#2EA86A"},
+        {"h": 275.016, "s": 0.80, "l": 0.55, "hex": "#8040D9"},
+        {"h": 52.524,  "s": 0.80, "l": 0.55, "hex": "#CCA826"},
+        {"h": 190.032, "s": 0.80, "l": 0.55, "hex": "#1C96B5"}
+      ],
+      "aesthetic_notes": "Five spread hues covering warm, cool, and neutral territory evenly."
+    },
+    {
+      "id": "golden_gradient_warm",
+      "name": "Golden Gradient Warm",
+      "n_colors": 8,
+      "description": "8 golden-angle hues with decreasing saturation — creates a warm gradient effect",
+      "base_hue": 30,
+      "saturation_range": [1.0, 0.4],
+      "lightness": 0.55,
+      "aesthetic_notes": "Saturation decreases as hue spreads. Starts vivid, relaxes into muted tones. φ-proportioned saturation steps."
+    },
+    {
+      "id": "golden_dark_10",
+      "name": "Golden Dark 10",
+      "n_colors": 10,
+      "description": "10 golden-angle hues at dark, rich values — for dark themes and generative backgrounds",
+      "base_hue": 0,
+      "saturation": 0.65,
+      "lightness": 0.3,
+      "aesthetic_notes": "Rich, jewel-tone palette. No two colors are similar. Works as a 10-color categorical palette for dark-mode data visualization."
+    }
+  ],
+  "generation_code": {
+    "language": "javascript",
+    "function": "goldenAnglePalette",
+    "source": "utils/sequence_to_palette.js"
+  }
+}

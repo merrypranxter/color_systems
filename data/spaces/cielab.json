@@ -1,0 +1,61 @@
+{
+  "id": "cielab",
+  "name": "CIELAB (L*a*b*)",
+  "standard": "CIE 1976",
+  "description": "Perceptually uniform color space derived from CIE XYZ via a cube-root-based non-linear transform. Designed so that equal numerical distances correspond to equal perceived color differences. The industry standard for color difference (ΔE) calculations.",
+  "components": {
+    "L*": {
+      "name": "Perceptual Lightness",
+      "range": [0, 100],
+      "notes": "0 = black, 100 = white diffuser. Perceptually linear (unlike sRGB or linear RGB)."
+    },
+    "a*": {
+      "name": "Green-Red axis",
+      "range": [-128, 127],
+      "notes": "Negative = green, positive = red/magenta. Named after the opponent color process."
+    },
+    "b*": {
+      "name": "Blue-Yellow axis",
+      "range": [-128, 127],
+      "notes": "Negative = blue, positive = yellow."
+    }
+  },
+  "cylindrical_form": {
+    "name": "CIELCh",
+    "components": ["L*", "C*", "h°"],
+    "C_formula": "sqrt(a*^2 + b*^2)",
+    "h_formula": "atan2(b*, a*) in degrees [0, 360)",
+    "notes": "Cylindrical form. h° is the hue angle, C* is chroma (colorfulness)."
+  },
+  "conversion": {
+    "from_xyz": {
+      "white_point": "D65: Xn=0.95047, Yn=1.00000, Zn=1.08883",
+      "steps": [
+        "Normalize: f = X/Xn, Y/Yn, Z/Zn",
+        "Apply: t = cbrt(t) if t > (6/29)^3, else t/(3*(6/29)^2) + 4/29",
+        "L* = 116*f(Y/Yn) - 16",
+        "a* = 500*(f(X/Xn) - f(Y/Yn))",
+        "b* = 200*(f(Y/Yn) - f(Z/Zn))"
+      ]
+    }
+  },
+  "delta_e": {
+    "CIE76": "sqrt((ΔL*)^2 + (Δa*)^2 + (Δb*)^2) — simple Euclidean distance",
+    "CIEDE2000": "Complex formula accounting for hue/chroma/lightness weighting — industry standard",
+    "just_noticeable_difference": "ΔE76 ≈ 1 is roughly the smallest perceptible difference",
+    "wcag_contrast": "WCAG 2.x uses relative luminance (Y from XYZ, NOT L*) — do not confuse"
+  },
+  "use_cases": [
+    "Color difference / ΔE calculations",
+    "Accessibility contrast checking (use relative luminance from XYZ)",
+    "Professional print color matching",
+    "Color gamut mapping",
+    "Legacy perceptual color math (use OKLab for new work)"
+  ],
+  "vs_oklab": {
+    "advantage": "Industry standard, WCAG/ISO reference, established ΔE formulas",
+    "disadvantage": "Hue shifts in blue region, more complex math than OKLab, worse for GLSL",
+    "recommendation": "Use OKLab for new generative art. Use CIELAB when interfacing with industry tools or WCAG."
+  },
+  "art_notes": "CIELAB is where the color science establishment lives. If you're doing ΔE 2000 comparisons or talking to Pantone, you're here. For generative art, OKLab is better. But understanding CIELAB gives you the vocabulary to read color science papers."
+}

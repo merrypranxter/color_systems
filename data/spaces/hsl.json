@@ -1,0 +1,56 @@
+{
+  "id": "hsl",
+  "name": "HSL",
+  "description": "Cylindrical remapping of sRGB. Hue is an angle (0–360°), Saturation and Lightness are normalized. Not perceptually uniform — equal hue steps look very unequal in brightness.",
+  "components": {
+    "H": {
+      "name": "Hue",
+      "range": [0, 360],
+      "unit": "degrees",
+      "key_angles": {
+        "0": "Red",
+        "30": "Orange",
+        "60": "Yellow",
+        "90": "Yellow-Green",
+        "120": "Green",
+        "150": "Spring Green",
+        "180": "Cyan",
+        "210": "Azure",
+        "240": "Blue",
+        "270": "Violet",
+        "300": "Magenta",
+        "330": "Rose"
+      }
+    },
+    "S": {
+      "name": "Saturation",
+      "range": [0, 1],
+      "notes": "0 = gray, 1 = fully saturated at given lightness"
+    },
+    "L": {
+      "name": "Lightness",
+      "range": [0, 1],
+      "notes": "0 = black, 0.5 = pure hue, 1 = white"
+    }
+  },
+  "harmony_algebra": {
+    "description": "Harmony operations are angle arithmetic on H, mod 360",
+    "operations": {
+      "complementary": "H + 180",
+      "split_complementary": ["H + 150", "H + 210"],
+      "triadic": ["H + 120", "H + 240"],
+      "square_tetradic": ["H + 90", "H + 180", "H + 270"],
+      "rectangular_tetradic": ["H + 60", "H + 180", "H + 240"],
+      "analogous_narrow": ["H - 30", "H + 30"],
+      "analogous_wide": ["H - 60", "H + 60"],
+      "double_complementary": ["H + 30", "H + 180", "H + 210"]
+    },
+    "note": "All operations are mod 360. Results are HSL hues — convert to sRGB for display."
+  },
+  "known_issues": [
+    "Yellow (60°) appears much brighter than blue (240°) at same S and L",
+    "Interpolation goes through unsaturated middle (hue wraps)",
+    "Not suitable for perceptual color design — use OKLab/OKLCh instead",
+    "S is context-dependent (achromatic colors have undefined H)"
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "version": "1.0.0",
+  "description": "Classical color harmony systems formalized as angle operations in HSL hue space",
+  "base_hue_variable": "θ (theta) — the primary hue angle in degrees [0, 360)",
+  "harmonies": [
+    {
+      "id": "monochromatic",
+      "name": "Monochromatic",
+      "hue_angles": ["θ"],
+      "varies": ["saturation", "lightness"],
+      "description": "Single hue, multiple values. Unified and serene.",
+      "math": "All colors share H. Vary S in [0.3, 1.0] and L in [0.2, 0.8].",
+      "generative_tip": "Map a 1D parameter t → S and L via sine functions for smooth variation."
+    },
+    {
+      "id": "complementary",
+      "name": "Complementary",
+      "hue_angles": ["θ", "(θ + 180) % 360"],
+      "description": "Two hues opposite on the wheel. Maximum contrast. Can vibrate visually at equal weight.",
+      "math": "Δhue = 180°. Highest chroma contrast.",
+      "tension_index": 10,
+      "generative_tip": "Use one color at 70% area, complement at 30% for balance."
+    },
+    {
+      "id": "split_complementary",
+      "name": "Split Complementary",
+      "hue_angles": ["θ", "(θ + 150) % 360", "(θ + 210) % 360"],
+      "description": "Primary + two colors adjacent to its complement. High contrast, less tension than direct complementary.",
+      "math": "Complement split by ±30°.",
+      "tension_index": 7
+    },
+    {
+      "id": "triadic",
+      "name": "Triadic",
+      "hue_angles": ["θ", "(θ + 120) % 360", "(θ + 240) % 360"],
+      "description": "Three equally spaced hues. Vibrant and balanced. The primary color triad (red/yellow/blue) is triadic.",
+      "math": "Δhue = 120°. Equilateral triangle on the wheel.",
+      "tension_index": 8,
+      "generative_tip": "Rotate θ slowly over time for animated palette cycling."
+    },
+    {
+      "id": "square_tetradic",
+      "name": "Square / Tetradic",
+      "hue_angles": ["θ", "(θ + 90) % 360", "(θ + 180) % 360", "(θ + 270) % 360"],
+      "description": "Four equally spaced hues. Rich and complex. Hard to balance — vary saturation/lightness heavily.",
+      "math": "Δhue = 90°. Square on the wheel.",
+      "tension_index": 9
+    },
+    {
+      "id": "rectangular_tetradic",
+      "name": "Rectangular / Double Complementary",
+      "hue_angles": ["θ", "(θ + 60) % 360", "(θ + 180) % 360", "(θ + 240) % 360"],
+      "description": "Two complementary pairs. Rectangle on the wheel.",
+      "math": "Two pairs separated by 60° and 120°."
+    },
+    {
+      "id": "analogous",
+      "name": "Analogous",
+      "hue_angles": ["(θ - 30) % 360", "θ", "(θ + 30) % 360"],
+      "description": "Neighboring hues. Natural, harmonious, found in nature. Low tension.",
+      "math": "Hues within 30° of each other.",
+      "tension_index": 2,
+      "generative_tip": "Use analogous for background/ambient color fields, then punch with a complementary accent."
+    },
+    {
+      "id": "analogous_wide",
+      "name": "Analogous Wide",
+      "hue_angles": ["(θ - 60) % 360", "(θ - 30) % 360", "θ", "(θ + 30) % 360", "(θ + 60) % 360"],
+      "description": "Five neighboring hues. More variation, still cohesive.",
+      "math": "Hues within 60° span."
+    }
+  ],
+  "generative_extensions": {
+    "description": "Beyond classical harmonies — variations for generative art",
+    "variants": [
+      {
+        "id": "golden_angle_harmony",
+        "name": "Golden Angle Harmony",
+        "formula": "θ_n = (θ_0 + n * 137.5077...) % 360",
+        "description": "Successive hues separated by the golden angle (≈137.508°). Generates maximally spread, non-repeating hue sequences. Used in phyllotaxis. Never clusters, never repeats for finite n.",
+        "golden_angle_degrees": 137.50776,
+        "cross_repo": "phyllotaxis"
+      },
+      {
+        "id": "fibonacci_harmony",
+        "name": "Fibonacci Harmony",
+        "formula": "θ_n = (θ_0 + Fib(n) / Fib(n+1) * 360) % 360",
+        "description": "Hue positions at Fibonacci ratio intervals. Converges toward golden angle harmony.",
+        "first_ratios": [0.5, 0.667, 0.6, 0.625, 0.615, 0.619, 0.618]
+      },
+      {
+        "id": "prime_harmony",
+        "name": "Prime Gap Harmony",
+        "formula": "θ_n = (θ_0 + prime_gap(n) * scale) % 360",
+        "description": "Hue jumps determined by gaps between consecutive primes. Irregular but non-random.",
+        "first_prime_gaps": [1, 2, 2, 4, 2, 4, 2, 4, 6, 2, 6]
+      }
+    ]
+  }
+}

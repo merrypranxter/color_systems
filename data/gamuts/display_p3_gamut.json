@@ -1,0 +1,46 @@
+{
+  "id": "display_p3_gamut",
+  "name": "Display P3 Color Gamut",
+  "description": "Display P3 is a wide-gamut color space developed by Apple/DCI for digital cinema and modern displays. It covers ~45% of visible colors vs sRGB's ~36%. Supported on all modern Apple devices, many Android devices, and newer monitors.",
+  "geometry": {
+    "shape": "Parallelepiped (skewed cube) — larger than sRGB in XYZ space",
+    "ambient_space": "CIE XYZ",
+    "vertex_count": 8,
+    "vertices_xyz": {
+      "black":   [0.0000, 0.0000, 0.0000],
+      "white":   [0.9505, 1.0000, 1.0890],
+      "red":     [0.5151, 0.2412, -0.0010],
+      "green":   [0.2920, 0.6922,  0.0419],
+      "blue":    [0.1442, 0.0666,  0.9144],
+      "cyan":    [0.4362, 0.7588,  0.9563],
+      "magenta": [0.6593, 0.3078,  0.9134],
+      "yellow":  [0.8071, 0.9334,  0.0409]
+    }
+  },
+  "primaries": {
+    "white_point": "D65",
+    "red":   { "xy": [0.6800, 0.3200], "note": "Redder than sRGB" },
+    "green": { "xy": [0.2650, 0.6900], "note": "Greener than sRGB" },
+    "blue":  { "xy": [0.1500, 0.0600], "note": "Same as sRGB" }
+  },
+  "vs_srgb": {
+    "coverage_increase_percent": 25,
+    "notable_gains": [
+      "Much wider red gamut — vivid oranges and reds that sRGB can't show",
+      "Wider green gamut — saturated greens, lime, emerald",
+      "Blue boundary similar to sRGB"
+    ],
+    "backward_compatible": "sRGB is a strict subset of Display P3. All sRGB colors are valid P3 colors."
+  },
+  "css_support": {
+    "syntax": "color(display-p3 R G B)",
+    "example": "color(display-p3 1.0 0.0 0.0)  /* most saturated P3 red */",
+    "fallback": "Use @supports (color: color(display-p3 1 1 1)) for progressive enhancement"
+  },
+  "coverage": {
+    "of_visible_spectrum_percent": 45.5,
+    "vs_srgb": "~26% larger than sRGB",
+    "vs_rec2020": "Rec.2020 covers ~76% — P3 is mid-tier"
+  },
+  "art_notes": "Display P3 is the practical wide-gamut target for web generative art in 2025. Safari, Chrome, and Firefox all support it. If you're making vivid, saturated art, you're leaving color on the table by staying in sRGB. Go P3. The reds especially."
+}

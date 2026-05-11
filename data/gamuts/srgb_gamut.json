@@ -1,0 +1,32 @@
+{
+  "id": "srgb_gamut",
+  "name": "sRGB Color Gamut",
+  "description": "The sRGB gamut is a convex polyhedron (parallelepiped) in CIE XYZ space, bounded by 8 vertices corresponding to black, white, and the 6 primary/secondary colors.",
+  "geometry": {
+    "shape": "Parallelepiped (skewed cube)",
+    "ambient_space": "CIE XYZ",
+    "vertex_count": 8,
+    "face_count": 6,
+    "vertices_xyz": {
+      "black":   [0.0000, 0.0000, 0.0000],
+      "white":   [0.9505, 1.0000, 1.0890],
+      "red":     [0.4124, 0.2126, 0.0193],
+      "green":   [0.3576, 0.7152, 0.1192],
+      "blue":    [0.1805, 0.0722, 0.9505],
+      "cyan":    [0.5381, 0.7874, 1.0697],
+      "magenta": [0.5929, 0.2848, 0.9698],
+      "yellow":  [0.7700, 0.9278, 0.1385]
+    }
+  },
+  "primaries": {
+    "white_point": "D65",
+    "red":   { "xy": [0.6400, 0.3300] },
+    "green": { "xy": [0.3000, 0.6000] },
+    "blue":  { "xy": [0.1500, 0.0600] }
+  },
+  "coverage": {
+    "of_visible_spectrum_percent": 35.9,
+    "note": "sRGB covers only ~36% of visible colors. Display P3 covers ~45%, Rec.2020 covers ~76%."
+  },
+  "art_notes": "When you try to use a color outside this gamut in sRGB, it gets clamped — clipped to the nearest gamut boundary. This is why some colors look wrong when you expect them to be more vivid. Understanding the gamut shape helps predict what survives the trip from math to monitor."
+}

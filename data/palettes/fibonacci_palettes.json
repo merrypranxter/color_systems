@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "description": "Palettes generated using Fibonacci sequence as hue spacing basis",
+  "math_basis": {
+    "sequence": [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144],
+    "ratios": [1.0, 0.5, 0.667, 0.6, 0.625, 0.615, 0.619, 0.6176, 0.6181, 0.6180, 0.61803],
+    "golden_ratio": 1.6180339887,
+    "golden_angle_degrees": 137.50776405,
+    "note": "Fibonacci ratios converge to 1/φ. The golden angle = 360° × (2 - φ) = 360° / φ²"
+  },
+  "palettes": [
+    {
+      "id": "fib_primary_5",
+      "name": "Fibonacci 5-color (golden angle)",
+      "n_colors": 5,
+      "generation_method": "golden_angle_rotation",
+      "base_hue": 0,
+      "hues": [0, 137.5, 275.0, 52.5, 190.0],
+      "colors_hsl": [
+        {"h": 0, "s": 0.85, "l": 0.55, "hex": "#E8403D"},
+        {"h": 137.5, "s": 0.75, "l": 0.45, "hex": "#27A352"},
+        {"h": 275.0, "s": 0.80, "l": 0.55, "hex": "#8B3FD9"},
+        {"h": 52.5, "s": 0.90, "l": 0.50, "hex": "#D4A020"},
+        {"h": 190.0, "s": 0.80, "l": 0.48, "hex": "#1B8FA8"}
+      ],
+      "aesthetic_notes": "Maximally spread hues, no clustering. Every color visually distinct. Use for labeling, category data, multi-layer renders."
+    },
+    {
+      "id": "fib_neon_8",
+      "name": "Fibonacci 8-color neon (golden angle)",
+      "n_colors": 8,
+      "generation_method": "golden_angle_rotation",
+      "base_hue": 18,
+      "saturation": 1.0,
+      "lightness": 0.55,
+      "hues": [18, 155.5, 293.0, 70.5, 208.0, 345.5, 123.0, 260.5],
+      "aesthetic_notes": "Full saturation at each golden-angle step. Neon rainbow without repetition."
+    },
+    {
+      "id": "fib_ratio_progression",
+      "name": "Fibonacci Ratio Progression",
+      "description": "Hue spacing based on successive Fibonacci ratios × 360°",
+      "generation_method": "fibonacci_ratios",
+      "ratios_used": [0.5, 0.667, 0.6, 0.625, 0.615],
+      "hues_from_0": [0, 180, 240, 216, 225, 221.4],
+      "aesthetic_notes": "Hue positions spiral toward golden angle. Early colors have wide spacing, later colors converge. Interesting as animation sequence."
+    }
+  ],
+  "generation_code": {
+    "language": "javascript",
+    "function": "generateGoldenAnglePalette",
+    "source": "utils/sequence_to_palette.js"
+  }
+}

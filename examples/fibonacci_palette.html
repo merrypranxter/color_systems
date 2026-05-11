@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fibonacci Palette Generator — color_systems</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; color: #fff; font-family: monospace; padding: 2rem; }
+  h1 { font-size: 1.2rem; color: #aaa; margin-bottom: 1.5rem; }
+  .controls { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; color: #888; }
+  input[type=range] { width: 200px; accent-color: #0ff; }
+  input[type=number] { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 8px; width: 80px; }
+  select { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 8px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+  .swatch { width: 80px; height: 80px; border-radius: 4px; display: flex; align-items: flex-end; padding: 4px; font-size: 0.65rem; color: rgba(255,255,255,0.7); text-shadow: 0 0 4px #000; cursor: pointer; transition: transform 0.1s; }
+  .swatch:hover { transform: scale(1.05); }
+  .info { margin-top: 2rem; font-size: 0.75rem; color: #555; line-height: 1.6; }
+</style>
+</head>
+<body>
+<h1>color_systems / fibonacci_palette.html</h1>
+<div class="controls">
+  <label>Count <input type="range" id="count" min="3" max="24" value="8"><span id="countVal">8</span></label>
+  <label>Base Hue° <input type="range" id="baseHue" min="0" max="359" value="0"><span id="hueVal">0</span></label>
+  <label>Saturation <input type="range" id="sat" min="0" max="100" value="85"><span id="satVal">85%</span></label>
+  <label>Lightness <input type="range" id="lit" min="10" max="90" value="55"><span id="litVal">55%</span></label>
+  <label>Method
+    <select id="method">
+      <option value="golden">Golden Angle</option>
+      <option value="fibRatio">Fibonacci Ratios</option>
+      <option value="prime">Prime Gaps</option>
+      <option value="collatz">Collatz Sequence</option>
+    </select>
+  </label>
+</div>
+<div class="swatches" id="swatches"></div>
+<div class="info" id="info"></div>
+
+<script type="module">
+const GOLDEN_ANGLE = 137.50776405;
+const mod = (h) => ((h % 360) + 360) % 360;
+
+function hslToHex(h, s, l) {
+  h = mod(h); s /= 100; l /= 100;
+  if (s === 0) { const v = Math.round(l * 255).toString(16).padStart(2,'0'); return '#'+v+v+v; }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  return '#' + [h/360 + 1/3, h/360, h/360 - 1/3].map(t => {
+    t = ((t % 1) + 1) % 1;
+    let v = t < 1/6 ? p+(q-p)*6*t : t < 0.5 ? q : t < 2/3 ? p+(q-p)*(2/3-t)*6 : p;
+    return Math.round(v * 255).toString(16).padStart(2, '0');
+  }).join('');
+}
+
+function goldenPalette(n, base, s, l) {
+  return Array.from({length: n}, (_, i) => hslToHex(base + i * GOLDEN_ANGLE, s, l));
+}
+
+function fibRatioPalette(n, base, s, l) {
+  const fib = [1, 1]; for (let i = 2; i < n+1; i++) fib.push(fib[i-1]+fib[i-2]);
+  const hues = [base];
+  for (let i = 0; i < n-1; i++) hues.push(hues[hues.length-1] + (fib[i]/fib[i+1]) * 360);
+  return hues.map(h => hslToHex(h, s, l));
+}
+
+function primePalette(n, base, s, l) {
+  const sieve = new Array(n * 15 + 2).fill(true); sieve[0]=sieve[1]=false;
+  for (let i=2;i<=Math.sqrt(sieve.length);i++) if(sieve[i]) for(let j=i*i;j<sieve.length;j+=i) sieve[j]=false;
+  const primes = sieve.reduce((a,v,i)=>v?[...a,i]:a,[]).slice(0,n);
+  let h = base;
+  return primes.map((p,i) => { const hex = hslToHex(h,s,l); h += (i===0?0:p-primes[i-1])*30; return hex; });
+}
+
+function collatzPalette(n, base, s, l) {
+  let cur = Math.round(base) || 27; const seq=[cur];
+  while(seq.length < n*3 && cur !== 1) { cur = cur%2===0?cur/2:3*cur+1; seq.push(cur); }
+  return seq.slice(0,n).map(v => hslToHex(v%360,s,l));
+}
+
+function render() {
+  const n = +document.getElementById('count').value;
+  const base = +document.getElementById('baseHue').value;
+  const s = +document.getElementById('sat').value;
+  const l = +document.getElementById('lit').value;
+  const method = document.getElementById('method').value;
+
+  document.getElementById('countVal').textContent = n;
+  document.getElementById('hueVal').textContent = Math.round(base) + '°';
+  document.getElementById('satVal').textContent = s + '%';
+  document.getElementById('litVal').textContent = l + '%';
+
+  let colors;
+  if (method === 'golden') colors = goldenPalette(n, base, s, l);
+  else if (method === 'fibRatio') colors = fibRatioPalette(n, base, s, l);
+  else if (method === 'prime') colors = primePalette(n, base, s, l);
+  else colors = collatzPalette(n, base, s, l);
+
+  const container = document.getElementById('swatches');
+  container.innerHTML = '';
+  colors.forEach(hex => {
+    const div = document.createElement('div');
+    div.className = 'swatch';
+    div.style.background = hex;
+    div.textContent = hex;
+    div.onclick = () => navigator.clipboard.writeText(hex);
+    container.appendChild(div);
+  });
+
+  document.getElementById('info').textContent =
+    `Method: ${method} | ${n} colors | Base: ${Math.round(base)}° | Click swatch to copy hex`;
+}
+
+document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+render();
+</script>
+</body>
+</html>

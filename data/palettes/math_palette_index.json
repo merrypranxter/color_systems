@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "description": "Index of all math-sequence-generated palette sets",
+  "palette_sets": [
+    {
+      "id": "fibonacci_palettes",
+      "file": "fibonacci_palettes.json",
+      "math_basis": "Fibonacci sequence, golden ratio, golden angle",
+      "aesthetic": "Maximally distributed, non-repeating, converges to phyllotaxis"
+    },
+    {
+      "id": "prime_palettes",
+      "file": "prime_palettes.json",
+      "math_basis": "Prime gaps, prime distributions, Ulam spiral angles",
+      "aesthetic": "Irregular but structured, controlled chaos"
+    },
+    {
+      "id": "golden_ratio_palettes",
+      "file": "golden_ratio_palettes.json",
+      "math_basis": "Golden ratio subdivisions, golden rectangle proportions",
+      "aesthetic": "Aesthetically 'correct', natural proportions"
+    }
+  ],
+  "cross_repo": {
+    "THE-LISTS": "Math sequence data lives there, palettes generated from it here",
+    "phyllotaxis": "Golden angle palette = visual equivalent of phyllotaxis math"
+  }
+}

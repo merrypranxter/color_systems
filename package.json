@@ -1,0 +1,31 @@
+{
+  "name": "color_systems",
+  "version": "1.0.0",
+  "description": "Color as a first-class mathematical object — perceptual spaces, harmony algebra, gamut geometry, math-sequence palettes",
+  "main": "utils/color_math.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "lint": "eslint utils/ sketches/",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "color",
+    "generative-art",
+    "glsl",
+    "oklab",
+    "perceptual-color",
+    "color-theory",
+    "math-art",
+    "p5js",
+    "threejs",
+    "shader"
+  ],
+  "author": "merrypranxter",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  },
+  "dependencies": {}
+}
