@@ -1,0 +1,1504 @@
+# REPO SEED: color_systems
+
+## Metadata
+- Name: color_systems
+- Purpose: Color as a first-class mathematical object — perceptual spaces, harmony algebra, gamut geometry, and math-sequence palette generation for generative art
+- Tech Stack: JSON/YAML data, GLSL shaders, p5.js, Three.js, vanilla JS utilities
+- License: MIT
+- Cross-repo connections: merrys_visual_bible, THE-LISTS, moire, reaction_diffusion, strange_attractors (future)
+- Author: merrypranxter
+
+---
+
+## Directory Structure
+
+```
+color_systems/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── docs/
+│   ├── color_spaces.md
+│   ├── harmony_theory.md
+│   ├── gamut_geometry.md
+│   ├── perceptual_math.md
+│   ├── sequence_palettes.md
+│   └── cross_repo_connections.md
+├── data/
+│   ├── spaces/
+│   │   ├── index.json
+│   │   ├── srgb.json
+│   │   ├── oklab.json
+│   │   ├── cielab.json
+│   │   ├── hsl.json
+│   │   └── hsv.json
+│   ├── harmony/
+│   │   ├── classical_harmonies.json
+│   │   ├── itten_contrasts.json
+│   │   └── circle_algebra.json
+│   ├── palettes/
+│   │   ├── fibonacci_palettes.json
+│   │   ├── prime_palettes.json
+│   │   ├── golden_ratio_palettes.json
+│   │   └── math_palette_index.json
+│   └── gamuts/
+│       ├── srgb_gamut.json
+│       └── display_p3_gamut.json
+├── shaders/
+│   ├── lib/
+│   │   ├── oklab.glsl
+│   │   ├── hsl.glsl
+│   │   ├── colorspace_transforms.glsl
+│   │   └── harmony.glsl
+│   └── sketches/
+│       ├── harmony_wheel.frag
+│       ├── gamut_slice.frag
+│       └── sequence_palette_gen.frag
+├── sketches/
+│   ├── p5/
+│   │   ├── harmony_wheel.js
+│   │   ├── gamut_3d.js
+│   │   └── sequence_palette.js
+│   └── three/
+│       └── gamut_geometry.js
+├── utils/
+│   ├── color_math.js
+│   ├── conversions.js
+│   └── sequence_to_palette.js
+├── examples/
+│   ├── basic_harmony.html
+│   └── fibonacci_palette.html
+├── README.md
+├── LICENSE
+├── package.json
+└── .gitignore
+```
+
+---
+
+## File Contents
+
+### ===== FILE: README.md =====
+# color_systems
+
+> Color is not decoration. Color is **math with wavelengths**.
+
+A structured knowledge base and generative art toolkit for color as a first-class mathematical object. Covers perceptual color spaces, harmony algebra, gamut geometry, and palette generation from mathematical sequences.
+
+Part of the [merrypranxter](https://github.com/merrypranxter) generative art ecosystem.
+
+**Cross-repo connections:**
+- [`merrys_visual_bible`](https://github.com/merrypranxter/merrys_visual_bible) — color as visual language
+- [`THE-LISTS`](https://github.com/merrypranxter/THE-LISTS) — mathematical sequences → palettes
+- [`moire`](https://github.com/merrypranxter/moire) — interference patterns need perceptual color
+- [`reaction_diffusion`](https://github.com/merrypranxter/reaction_diffusion) — Gray-Scott colormap library
+
+---
+
+## What's in here
+
+### 📐 Color Spaces (`data/spaces/`)
+Machine-readable specs for every major color space:
+- **sRGB** — the boring default, but its math matters
+- **HSL / HSV** — cylindrical representations, harmony algebra lives here
+- **OKLab** — perceptually uniform, use this for interpolation
+- **CIELAB** — the OG perceptual space, basis for Delta-E math
+
+### 🎨 Harmony Systems (`data/harmony/`)
+Classical harmonies formalized as circular algebra (complementary = +180°, triadic = +120°/+240°, etc.) plus Itten's 7 contrasts as computable properties.
+
+### 🔺 Gamut Geometry (`data/gamuts/`)
+Color gamuts as 3D geometric objects in CIE XYZ space. sRGB gamut is a parallelpiped. Display P3 is bigger. Your monitor lies to you constantly.
+
+### 🌀 Math Palettes (`data/palettes/`)
+Palettes generated from mathematical sequences:
+- Fibonacci ratios → hue spacing
+- Prime number gaps → saturation mapping
+- Golden angle (137.5°) → phyllotaxis-inspired palette wheels
+- Collatz sequence → chaos palette
+
+### 🔮 GLSL Library (`shaders/lib/`)
+Drop-in shader utilities:
+- OKLab ↔ sRGB conversion (perceptual interpolation in GLSL)
+- HSL encode/decode
+- Harmony angle functions
+- Full colorspace transform chain
+
+### 🎛️ Sketches (`sketches/`)
+- **p5.js:** Harmony wheel, gamut 3D visualizer, sequence palette generator
+- **Three.js:** Interactive gamut geometry in 3D
+
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/merrypranxter/color_systems
+cd color_systems
+npm install
+# open examples/basic_harmony.html in browser
+# or open examples/fibonacci_palette.html
+```
+
+No build step. Pure JS + GLSL. Everything runs in-browser.
+
+---
+
+## Key Concepts
+
+### Why OKLab?
+HSL interpolation looks bad because it goes through ugly intermediate hues. OKLab is perceptually uniform — equal distances in OKLab space look equally different to human eyes. Use it for gradients, lerping, color scheme generation.
+
+### Harmony as Circular Algebra
+A color wheel is a circle. Harmony systems are angle relationships on that circle:
+- Complementary: θ + 180°
+- Split complementary: θ + 150°, θ + 210°
+- Triadic: θ + 120°, θ + 240°
+- Tetradic: θ + 90°, θ + 180°, θ + 270°
+- Analogous: θ ± 30°
+All harmony math happens in HSL hue space (0–360°), then convert to output space.
+
+### Gamut Geometry
+In CIE XYZ space, every color gamut is a convex polyhedron. sRGB is a parallelepiped defined by 8 corner colors (black, white, red, green, blue, cyan, magenta, yellow). Points inside the polyhedron are displayable. Points outside are impossible on that display.
+
+---
+
+## License
+
+MIT — use it, abuse it, put it in your shaders.
+
+
+### ===== FILE: package.json =====
+{
+  "name": "color_systems",
+  "version": "1.0.0",
+  "description": "Color as a first-class mathematical object — perceptual spaces, harmony algebra, gamut geometry, math-sequence palettes",
+  "main": "utils/color_math.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "lint": "eslint utils/ sketches/",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "color",
+    "generative-art",
+    "glsl",
+    "oklab",
+    "perceptual-color",
+    "color-theory",
+    "math-art",
+    "p5js",
+    "threejs",
+    "shader"
+  ],
+  "author": "merrypranxter",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  },
+  "dependencies": {}
+}
+
+
+### ===== FILE: .gitignore =====
+node_modules/
+.DS_Store
+*.log
+dist/
+.env
+.vscode/
+*.swp
+*.swo
+.cache/
+
+
+### ===== FILE: LICENSE =====
+MIT License
+
+Copyright (c) 2025 merrypranxter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+### ===== FILE: .github/workflows/ci.yml =====
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Validate JSON data files
+        run: |
+          find data/ -name "*.json" -exec node -e "
+            const fs = require('fs');
+            const file = process.argv[1];
+            try {
+              JSON.parse(fs.readFileSync(file, 'utf8'));
+              console.log('✓', file);
+            } catch(e) {
+              console.error('✗', file, e.message);
+              process.exit(1);
+            }
+          " {} \;
+      - name: Lint
+        run: npm run lint || true
+
+
+### ===== FILE: data/spaces/index.json =====
+{
+  "version": "1.0.0",
+  "description": "Index of color space definitions in this repo",
+  "spaces": [
+    {
+      "id": "srgb",
+      "name": "sRGB",
+      "file": "srgb.json",
+      "type": "display",
+      "perceptuallyUniform": false,
+      "components": ["R", "G", "B"],
+      "range": [[0,1],[0,1],[0,1]],
+      "notes": "Standard display space. Nonlinear (gamma-encoded). Do NOT interpolate here."
+    },
+    {
+      "id": "oklab",
+      "name": "OKLab",
+      "file": "oklab.json",
+      "type": "perceptual",
+      "perceptuallyUniform": true,
+      "components": ["L", "a", "b"],
+      "range": [[0,1],[-0.5,0.5],[-0.5,0.5]],
+      "notes": "Best current perceptual space. Use for interpolation, gradients, palette generation."
+    },
+    {
+      "id": "cielab",
+      "name": "CIELAB (L*a*b*)",
+      "file": "cielab.json",
+      "type": "perceptual",
+      "perceptuallyUniform": true,
+      "components": ["L*", "a*", "b*"],
+      "range": [[0,100],[-128,127],[-128,127]],
+      "notes": "The OG perceptual space. DeltaE color difference math lives here."
+    },
+    {
+      "id": "hsl",
+      "name": "HSL",
+      "file": "hsl.json",
+      "type": "cylindrical",
+      "perceptuallyUniform": false,
+      "components": ["H", "S", "L"],
+      "range": [[0,360],[0,1],[0,1]],
+      "notes": "Cylindrical sRGB remapping. Harmony algebra uses H channel. Not perceptual."
+    },
+    {
+      "id": "hsv",
+      "name": "HSV (HSB)",
+      "file": "hsv.json",
+      "type": "cylindrical",
+      "perceptuallyUniform": false,
+      "components": ["H", "S", "V"],
+      "range": [[0,360],[0,1],[0,1]],
+      "notes": "Similar to HSL. V=1 gives saturated colors. Common in creative tools."
+    }
+  ]
+}
+
+
+### ===== FILE: data/spaces/oklab.json =====
+{
+  "id": "oklab",
+  "name": "OKLab",
+  "author": "Björn Ottosson",
+  "year": 2020,
+  "reference": "https://bottosson.github.io/posts/oklab/",
+  "description": "Perceptually uniform color space designed for image processing and color manipulation. Outperforms CIELAB for hue uniformity. Based on a linear transform of the Bradford-adapted XYZ via a non-linear cube root.",
+  "components": {
+    "L": {
+      "name": "Lightness",
+      "range": [0, 1],
+      "notes": "0 = black, 1 = white. Perceptually linear."
+    },
+    "a": {
+      "name": "Green-Red axis",
+      "range": [-0.5, 0.5],
+      "notes": "Negative = green, positive = red/magenta"
+    },
+    "b": {
+      "name": "Blue-Yellow axis",
+      "range": [-0.5, 0.5],
+      "notes": "Negative = blue, positive = yellow"
+    }
+  },
+  "cylindrical_form": {
+    "name": "OKLCh",
+    "components": ["L", "C", "h"],
+    "C_formula": "sqrt(a^2 + b^2)",
+    "h_formula": "atan2(b, a) in degrees",
+    "notes": "OKLCh is the cylindrical version. Use h for hue rotation, C for chroma control. Much better than HSL for perceptual hue harmony."
+  },
+  "conversion": {
+    "from_linear_srgb": {
+      "steps": [
+        "Apply linear sRGB to LMS matrix",
+        "Apply cube root: LMS' = cbrt(LMS)",
+        "Apply LMS' to Lab matrix"
+      ],
+      "matrix_linear_to_lms": [
+        [0.4122214708, 0.5363325363, 0.0514459929],
+        [0.2119034982, 0.6806995451, 0.1073969566],
+        [0.0883024619, 0.2817188376, 0.6299787005]
+      ],
+      "matrix_lms_to_lab": [
+        [0.2104542553, 0.7936177850, -0.0040720468],
+        [1.9779984951, -2.4285922050, 0.4505937099],
+        [0.0259040371, 0.7827717662, -0.8086757660]
+      ]
+    }
+  },
+  "use_cases": [
+    "Gradient interpolation (no muddy middle colors)",
+    "Palette generation (equal perceptual spacing)",
+    "Hue rotation (use OKLCh h channel)",
+    "Accessible color contrast checking",
+    "Smooth color animations in GLSL"
+  ],
+  "art_notes": "Interpolating in OKLab gives you the 'true' path between colors as your eyes perceive it. Gradients don't go gray in the middle. Hue rotations stay equally bright. This is the space you actually want."
+}
+
+
+### ===== FILE: data/spaces/hsl.json =====
+{
+  "id": "hsl",
+  "name": "HSL",
+  "description": "Cylindrical remapping of sRGB. Hue is an angle (0–360°), Saturation and Lightness are normalized. Not perceptually uniform — equal hue steps look very unequal in brightness.",
+  "components": {
+    "H": {
+      "name": "Hue",
+      "range": [0, 360],
+      "unit": "degrees",
+      "key_angles": {
+        "0": "Red",
+        "30": "Orange",
+        "60": "Yellow",
+        "90": "Yellow-Green",
+        "120": "Green",
+        "150": "Spring Green",
+        "180": "Cyan",
+        "210": "Azure",
+        "240": "Blue",
+        "270": "Violet",
+        "300": "Magenta",
+        "330": "Rose"
+      }
+    },
+    "S": {
+      "name": "Saturation",
+      "range": [0, 1],
+      "notes": "0 = gray, 1 = fully saturated at given lightness"
+    },
+    "L": {
+      "name": "Lightness",
+      "range": [0, 1],
+      "notes": "0 = black, 0.5 = pure hue, 1 = white"
+    }
+  },
+  "harmony_algebra": {
+    "description": "Harmony operations are angle arithmetic on H, mod 360",
+    "operations": {
+      "complementary": "H + 180",
+      "split_complementary": ["H + 150", "H + 210"],
+      "triadic": ["H + 120", "H + 240"],
+      "square_tetradic": ["H + 90", "H + 180", "H + 270"],
+      "rectangular_tetradic": ["H + 60", "H + 180", "H + 240"],
+      "analogous_narrow": ["H - 30", "H + 30"],
+      "analogous_wide": ["H - 60", "H + 60"],
+      "double_complementary": ["H + 30", "H + 180", "H + 210"]
+    },
+    "note": "All operations are mod 360. Results are HSL hues — convert to sRGB for display."
+  },
+  "known_issues": [
+    "Yellow (60°) appears much brighter than blue (240°) at same S and L",
+    "Interpolation goes through unsaturated middle (hue wraps)",
+    "Not suitable for perceptual color design — use OKLab/OKLCh instead",
+    "S is context-dependent (achromatic colors have undefined H)"
+  ]
+}
+
+
+### ===== FILE: data/harmony/classical_harmonies.json =====
+{
+  "version": "1.0.0",
+  "description": "Classical color harmony systems formalized as angle operations in HSL hue space",
+  "base_hue_variable": "θ (theta) — the primary hue angle in degrees [0, 360)",
+  "harmonies": [
+    {
+      "id": "monochromatic",
+      "name": "Monochromatic",
+      "hue_angles": ["θ"],
+      "varies": ["saturation", "lightness"],
+      "description": "Single hue, multiple values. Unified and serene.",
+      "math": "All colors share H. Vary S in [0.3, 1.0] and L in [0.2, 0.8].",
+      "generative_tip": "Map a 1D parameter t → S and L via sine functions for smooth variation."
+    },
+    {
+      "id": "complementary",
+      "name": "Complementary",
+      "hue_angles": ["θ", "(θ + 180) % 360"],
+      "description": "Two hues opposite on the wheel. Maximum contrast. Can vibrate visually at equal weight.",
+      "math": "Δhue = 180°. Highest chroma contrast.",
+      "tension_index": 10,
+      "generative_tip": "Use one color at 70% area, complement at 30% for balance."
+    },
+    {
+      "id": "split_complementary",
+      "name": "Split Complementary",
+      "hue_angles": ["θ", "(θ + 150) % 360", "(θ + 210) % 360"],
+      "description": "Primary + two colors adjacent to its complement. High contrast, less tension than direct complementary.",
+      "math": "Complement split by ±30°.",
+      "tension_index": 7
+    },
+    {
+      "id": "triadic",
+      "name": "Triadic",
+      "hue_angles": ["θ", "(θ + 120) % 360", "(θ + 240) % 360"],
+      "description": "Three equally spaced hues. Vibrant and balanced. The primary color triad (red/yellow/blue) is triadic.",
+      "math": "Δhue = 120°. Equilateral triangle on the wheel.",
+      "tension_index": 8,
+      "generative_tip": "Rotate θ slowly over time for animated palette cycling."
+    },
+    {
+      "id": "square_tetradic",
+      "name": "Square / Tetradic",
+      "hue_angles": ["θ", "(θ + 90) % 360", "(θ + 180) % 360", "(θ + 270) % 360"],
+      "description": "Four equally spaced hues. Rich and complex. Hard to balance — vary saturation/lightness heavily.",
+      "math": "Δhue = 90°. Square on the wheel.",
+      "tension_index": 9
+    },
+    {
+      "id": "rectangular_tetradic",
+      "name": "Rectangular / Double Complementary",
+      "hue_angles": ["θ", "(θ + 60) % 360", "(θ + 180) % 360", "(θ + 240) % 360"],
+      "description": "Two complementary pairs. Rectangle on the wheel.",
+      "math": "Two pairs separated by 60° and 120°."
+    },
+    {
+      "id": "analogous",
+      "name": "Analogous",
+      "hue_angles": ["(θ - 30) % 360", "θ", "(θ + 30) % 360"],
+      "description": "Neighboring hues. Natural, harmonious, found in nature. Low tension.",
+      "math": "Hues within 30° of each other.",
+      "tension_index": 2,
+      "generative_tip": "Use analogous for background/ambient color fields, then punch with a complementary accent."
+    },
+    {
+      "id": "analogous_wide",
+      "name": "Analogous Wide",
+      "hue_angles": ["(θ - 60) % 360", "(θ - 30) % 360", "θ", "(θ + 30) % 360", "(θ + 60) % 360"],
+      "description": "Five neighboring hues. More variation, still cohesive.",
+      "math": "Hues within 60° span."
+    }
+  ],
+  "generative_extensions": {
+    "description": "Beyond classical harmonies — variations for generative art",
+    "variants": [
+      {
+        "id": "golden_angle_harmony",
+        "name": "Golden Angle Harmony",
+        "formula": "θ_n = (θ_0 + n * 137.5077...) % 360",
+        "description": "Successive hues separated by the golden angle (≈137.508°). Generates maximally spread, non-repeating hue sequences. Used in phyllotaxis. Never clusters, never repeats for finite n.",
+        "golden_angle_degrees": 137.50776,
+        "cross_repo": "phyllotaxis"
+      },
+      {
+        "id": "fibonacci_harmony",
+        "name": "Fibonacci Harmony",
+        "formula": "θ_n = (θ_0 + Fib(n) / Fib(n+1) * 360) % 360",
+        "description": "Hue positions at Fibonacci ratio intervals. Converges toward golden angle harmony.",
+        "first_ratios": [0.5, 0.667, 0.6, 0.625, 0.615, 0.619, 0.618]
+      },
+      {
+        "id": "prime_harmony",
+        "name": "Prime Gap Harmony",
+        "formula": "θ_n = (θ_0 + prime_gap(n) * scale) % 360",
+        "description": "Hue jumps determined by gaps between consecutive primes. Irregular but non-random.",
+        "first_prime_gaps": [1, 2, 2, 4, 2, 4, 2, 4, 6, 2, 6]
+      }
+    ]
+  }
+}
+
+
+### ===== FILE: data/harmony/itten_contrasts.json =====
+{
+  "version": "1.0.0",
+  "source": "Johannes Itten, 'The Art of Color' (1961)",
+  "description": "Itten's 7 color contrasts formalized as computable properties",
+  "contrasts": [
+    {
+      "id": "hue_contrast",
+      "name": "Contrast of Hue",
+      "description": "Colors at maximum hue difference. Purest colors at maximum saturation.",
+      "formal_definition": "High ΔHue in HSL (approaching 180° for pairs), S = 1.0, L = 0.5",
+      "compute": "ΔHue = |H1 - H2| mod 360, then min(ΔHue, 360-ΔHue). High if > 120°.",
+      "maximum_example": "Pure red (#FF0000), pure yellow (#FFFF00), pure blue (#0000FF) triad",
+      "intensity": "Strongest with primary triad",
+      "art_notes": "The most basic contrast. Primitive visual energy. Use for maximum vibrancy."
+    },
+    {
+      "id": "light_dark_contrast",
+      "name": "Contrast of Light and Dark",
+      "description": "Contrast between luminance values. White/black is maximum.",
+      "formal_definition": "High ΔLightness. In CIELAB: high ΔL*.",
+      "compute": "ΔL = |L1 - L2| in HSL or L* in CIELAB. Maximum = black vs white.",
+      "art_notes": "The most powerful spatial contrast. Defines legibility and depth."
+    },
+    {
+      "id": "cold_warm_contrast",
+      "name": "Contrast of Cold and Warm",
+      "description": "Blues/greens (cold) vs oranges/reds (warm). Strongest: blue-orange pair.",
+      "formal_definition": "Warm hues: H ∈ [0°, 90°] ∪ [330°, 360°]. Cold hues: H ∈ [150°, 270°].",
+      "max_pair": { "warm": 30, "cold": 210, "note": "Orange vs. Azure — maximum warm/cold" },
+      "art_notes": "Creates spatial depth — warm advances, cool recedes. Psychedelic art abuse of this creates vibration."
+    },
+    {
+      "id": "complementary_contrast",
+      "name": "Complementary Contrast",
+      "description": "Colors opposite on the wheel. At equal saturation, maximum visual vibration.",
+      "formal_definition": "ΔHue ≈ 180°",
+      "vibration_threshold": "Both colors at S > 0.8, L ≈ 0.5 — will vibrate at small sizes",
+      "art_notes": "Adjacent complementary patches vibrate, creating optical illusions. Exploit heavily in moiré context."
+    },
+    {
+      "id": "simultaneous_contrast",
+      "name": "Simultaneous Contrast",
+      "description": "A color appears to change based on its surrounding color. Not a fixed property — an interaction effect.",
+      "formal_definition": "Perceived color of C shifts toward the complement of the surrounding color S_color.",
+      "example": "Gray on orange background looks bluish. Same gray on blue looks orangeish.",
+      "compute": "Not a static property — requires context. Related to lateral inhibition in the visual system.",
+      "art_notes": "THE most important effect for generative art. Your background is never neutral."
+    },
+    {
+      "id": "saturation_contrast",
+      "name": "Contrast of Saturation",
+      "description": "Pure saturated color vs. muted/grayed color.",
+      "formal_definition": "High ΔSaturation. One color S = 1.0, other S < 0.3.",
+      "art_notes": "A single saturated color against a field of desaturated colors screams. Used in Expressionism. Use for focal points."
+    },
+    {
+      "id": "quantity_contrast",
+      "name": "Contrast of Extension (Quantity)",
+      "description": "The relationship between the area of a color and its visual weight. Itten's 'harmony proportions'.",
+      "formal_definition": "To achieve optical balance, area ratios should be inverse to luminance values.",
+      "itten_proportions": {
+        "yellow_violet": "1:3",
+        "orange_blue": "1:2",
+        "red_green": "1:1",
+        "note": "Yellow is 3x brighter than violet, so needs 1/3 the area to feel balanced"
+      },
+      "luminance_weights": { "yellow": 9, "orange": 8, "red": 6, "violet": 3, "blue": 4, "green": 6 },
+      "art_notes": "Breaking these proportions is how you create tension and imbalance intentionally. Very useful for psychedelic overload aesthetics."
+    }
+  ]
+}
+
+
+### ===== FILE: data/palettes/fibonacci_palettes.json =====
+{
+  "version": "1.0.0",
+  "description": "Palettes generated using Fibonacci sequence as hue spacing basis",
+  "math_basis": {
+    "sequence": [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144],
+    "ratios": [1.0, 0.5, 0.667, 0.6, 0.625, 0.615, 0.619, 0.6176, 0.6181, 0.6180, 0.61803],
+    "golden_ratio": 1.6180339887,
+    "golden_angle_degrees": 137.50776405,
+    "note": "Fibonacci ratios converge to 1/φ. The golden angle = 360° × (2 - φ) = 360° / φ²"
+  },
+  "palettes": [
+    {
+      "id": "fib_primary_5",
+      "name": "Fibonacci 5-color (golden angle)",
+      "n_colors": 5,
+      "generation_method": "golden_angle_rotation",
+      "base_hue": 0,
+      "hues": [0, 137.5, 275.0, 52.5, 190.0],
+      "colors_hsl": [
+        {"h": 0, "s": 0.85, "l": 0.55, "hex": "#E8403D"},
+        {"h": 137.5, "s": 0.75, "l": 0.45, "hex": "#27A352"},
+        {"h": 275.0, "s": 0.80, "l": 0.55, "hex": "#8B3FD9"},
+        {"h": 52.5, "s": 0.90, "l": 0.50, "hex": "#D4A020"},
+        {"h": 190.0, "s": 0.80, "l": 0.48, "hex": "#1B8FA8"}
+      ],
+      "aesthetic_notes": "Maximally spread hues, no clustering. Every color visually distinct. Use for labeling, category data, multi-layer renders."
+    },
+    {
+      "id": "fib_neon_8",
+      "name": "Fibonacci 8-color neon (golden angle)",
+      "n_colors": 8,
+      "generation_method": "golden_angle_rotation",
+      "base_hue": 18,
+      "saturation": 1.0,
+      "lightness": 0.55,
+      "hues": [18, 155.5, 293.0, 70.5, 208.0, 345.5, 123.0, 260.5],
+      "aesthetic_notes": "Full saturation at each golden-angle step. Neon rainbow without repetition."
+    },
+    {
+      "id": "fib_ratio_progression",
+      "name": "Fibonacci Ratio Progression",
+      "description": "Hue spacing based on successive Fibonacci ratios × 360°",
+      "generation_method": "fibonacci_ratios",
+      "ratios_used": [0.5, 0.667, 0.6, 0.625, 0.615],
+      "hues_from_0": [0, 180, 240, 216, 225, 221.4],
+      "aesthetic_notes": "Hue positions spiral toward golden angle. Early colors have wide spacing, later colors converge. Interesting as animation sequence."
+    }
+  ],
+  "generation_code": {
+    "language": "javascript",
+    "function": "generateGoldenAnglePalette",
+    "source": "utils/sequence_to_palette.js"
+  }
+}
+
+
+### ===== FILE: data/palettes/math_palette_index.json =====
+{
+  "version": "1.0.0",
+  "description": "Index of all math-sequence-generated palette sets",
+  "palette_sets": [
+    {
+      "id": "fibonacci_palettes",
+      "file": "fibonacci_palettes.json",
+      "math_basis": "Fibonacci sequence, golden ratio, golden angle",
+      "aesthetic": "Maximally distributed, non-repeating, converges to phyllotaxis"
+    },
+    {
+      "id": "prime_palettes",
+      "file": "prime_palettes.json",
+      "math_basis": "Prime gaps, prime distributions, Ulam spiral angles",
+      "aesthetic": "Irregular but structured, controlled chaos"
+    },
+    {
+      "id": "golden_ratio_palettes",
+      "file": "golden_ratio_palettes.json",
+      "math_basis": "Golden ratio subdivisions, golden rectangle proportions",
+      "aesthetic": "Aesthetically 'correct', natural proportions"
+    }
+  ],
+  "cross_repo": {
+    "THE-LISTS": "Math sequence data lives there, palettes generated from it here",
+    "phyllotaxis": "Golden angle palette = visual equivalent of phyllotaxis math"
+  }
+}
+
+
+### ===== FILE: data/gamuts/srgb_gamut.json =====
+{
+  "id": "srgb_gamut",
+  "name": "sRGB Color Gamut",
+  "description": "The sRGB gamut is a convex polyhedron (parallelepiped) in CIE XYZ space, bounded by 8 vertices corresponding to black, white, and the 6 primary/secondary colors.",
+  "geometry": {
+    "shape": "Parallelepiped (skewed cube)",
+    "ambient_space": "CIE XYZ",
+    "vertex_count": 8,
+    "face_count": 6,
+    "vertices_xyz": {
+      "black":   [0.0000, 0.0000, 0.0000],
+      "white":   [0.9505, 1.0000, 1.0890],
+      "red":     [0.4124, 0.2126, 0.0193],
+      "green":   [0.3576, 0.7152, 0.1192],
+      "blue":    [0.1805, 0.0722, 0.9505],
+      "cyan":    [0.5381, 0.7874, 1.0697],
+      "magenta": [0.5929, 0.2848, 0.9698],
+      "yellow":  [0.7700, 0.9278, 0.1385]
+    }
+  },
+  "primaries": {
+    "white_point": "D65",
+    "red":   { "xy": [0.6400, 0.3300] },
+    "green": { "xy": [0.3000, 0.6000] },
+    "blue":  { "xy": [0.1500, 0.0600] }
+  },
+  "coverage": {
+    "of_visible_spectrum_percent": 35.9,
+    "note": "sRGB covers only ~36% of visible colors. Display P3 covers ~45%, Rec.2020 covers ~76%."
+  },
+  "art_notes": "When you try to use a color outside this gamut in sRGB, it gets clamped — clipped to the nearest gamut boundary. This is why some colors look wrong when you expect them to be more vivid. Understanding the gamut shape helps predict what survives the trip from math to monitor."
+}
+
+
+### ===== FILE: shaders/lib/oklab.glsl =====
+// oklab.glsl
+// OKLab <-> linear sRGB conversion utilities for GLSL
+// Reference: https://bottosson.github.io/posts/oklab/
+// Drop into any fragment shader for perceptually uniform color operations.
+
+// Linear sRGB to OKLab
+vec3 linearSRGB_to_OKLab(vec3 c) {
+    float l = 0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b;
+    float m = 0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b;
+    float s = 0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b;
+
+    float l_ = pow(l, 1.0/3.0);
+    float m_ = pow(m, 1.0/3.0);
+    float s_ = pow(s, 1.0/3.0);
+
+    return vec3(
+        0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_,
+        1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_,
+        0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_
+    );
+}
+
+// OKLab to linear sRGB
+vec3 OKLab_to_linearSRGB(vec3 c) {
+    float l_ = c.x + 0.3963377774 * c.y + 0.2158037573 * c.z;
+    float m_ = c.x - 0.1055613458 * c.y - 0.0638541728 * c.z;
+    float s_ = c.x - 0.0894841775 * c.y - 1.2914855480 * c.z;
+
+    float l = l_ * l_ * l_;
+    float m = m_ * m_ * m_;
+    float s = s_ * s_ * s_;
+
+    return vec3(
+         4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+        -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+        -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
+    );
+}
+
+// sRGB gamma (display) to linear sRGB
+float sRGB_to_linear(float x) {
+    return x <= 0.04045 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4);
+}
+
+// Linear sRGB to sRGB gamma
+float linear_to_sRGB(float x) {
+    return x <= 0.0031308 ? x * 12.92 : 1.055 * pow(x, 1.0/2.4) - 0.055;
+}
+
+// Full pipeline: sRGB (display) to OKLab
+vec3 sRGB_to_OKLab(vec3 c) {
+    vec3 lin = vec3(sRGB_to_linear(c.r), sRGB_to_linear(c.g), sRGB_to_linear(c.b));
+    return linearSRGB_to_OKLab(lin);
+}
+
+// Full pipeline: OKLab to sRGB (display)
+vec3 OKLab_to_sRGB(vec3 c) {
+    vec3 lin = OKLab_to_linearSRGB(c);
+    return vec3(linear_to_sRGB(lin.r), linear_to_sRGB(lin.g), linear_to_sRGB(lin.b));
+}
+
+// OKLab to OKLCh (cylindrical form — use for hue rotation)
+vec3 OKLab_to_OKLCh(vec3 lab) {
+    float C = length(lab.yz);          // chroma
+    float h = atan(lab.z, lab.y);      // hue angle in radians
+    return vec3(lab.x, C, h);
+}
+
+// OKLCh to OKLab
+vec3 OKLCh_to_OKLab(vec3 lch) {
+    return vec3(lch.x, lch.y * cos(lch.z), lch.y * sin(lch.z));
+}
+
+// Perceptual interpolation between two sRGB colors via OKLab
+vec3 oklabMix(vec3 colA, vec3 colB, float t) {
+    vec3 labA = sRGB_to_OKLab(colA);
+    vec3 labB = sRGB_to_OKLab(colB);
+    vec3 mixed = mix(labA, labB, t);
+    return OKLab_to_sRGB(mixed);
+}
+
+// Rotate hue by angle (radians) in OKLCh space, returns sRGB
+vec3 rotateHue(vec3 srgbColor, float angleRad) {
+    vec3 lab = sRGB_to_OKLab(srgbColor);
+    vec3 lch = OKLab_to_OKLCh(lab);
+    lch.z += angleRad;
+    return OKLab_to_sRGB(OKLCh_to_OKLab(lch));
+}
+
+
+### ===== FILE: shaders/lib/hsl.glsl =====
+// hsl.glsl
+// HSL <-> RGB conversions and harmony operations for GLSL
+// Use for harmony angle math, not for perceptual interpolation (use oklab.glsl for that)
+
+vec3 hsl_to_rgb(vec3 hsl) {
+    float h = hsl.x / 360.0;
+    float s = hsl.y;
+    float l = hsl.z;
+
+    if (s == 0.0) return vec3(l);
+
+    float q = l < 0.5 ? l * (1.0 + s) : l + s - l * s;
+    float p = 2.0 * l - q;
+
+    vec3 rgb;
+    float t[3];
+    t[0] = h + 1.0/3.0;
+    t[1] = h;
+    t[2] = h - 1.0/3.0;
+
+    for (int i = 0; i < 3; i++) {
+        float tc = t[i];
+        if (tc < 0.0) tc += 1.0;
+        if (tc > 1.0) tc -= 1.0;
+
+        float val;
+        if (tc < 1.0/6.0)      val = p + (q - p) * 6.0 * tc;
+        else if (tc < 0.5)     val = q;
+        else if (tc < 2.0/3.0) val = p + (q - p) * (2.0/3.0 - tc) * 6.0;
+        else                   val = p;
+
+        if (i == 0) rgb.r = val;
+        else if (i == 1) rgb.g = val;
+        else rgb.b = val;
+    }
+    return rgb;
+}
+
+vec3 rgb_to_hsl(vec3 rgb) {
+    float maxC = max(rgb.r, max(rgb.g, rgb.b));
+    float minC = min(rgb.r, min(rgb.g, rgb.b));
+    float delta = maxC - minC;
+    float l = (maxC + minC) / 2.0;
+    float h = 0.0;
+    float s = 0.0;
+
+    if (delta > 0.0) {
+        s = delta / (1.0 - abs(2.0 * l - 1.0));
+        if (maxC == rgb.r)      h = mod((rgb.g - rgb.b) / delta, 6.0) / 6.0;
+        else if (maxC == rgb.g) h = ((rgb.b - rgb.r) / delta + 2.0) / 6.0;
+        else                    h = ((rgb.r - rgb.g) / delta + 4.0) / 6.0;
+    }
+    return vec3(h * 360.0, s, l);
+}
+
+// Harmony operations — angle math mod 360
+float complementaryHue(float h)          { return mod(h + 180.0, 360.0); }
+float triadicHue1(float h)               { return mod(h + 120.0, 360.0); }
+float triadicHue2(float h)               { return mod(h + 240.0, 360.0); }
+float splitComplementary1(float h)       { return mod(h + 150.0, 360.0); }
+float splitComplementary2(float h)       { return mod(h + 210.0, 360.0); }
+float squareTetradic(float h, int i)     { return mod(h + float(i) * 90.0, 360.0); }
+
+// Golden angle hue step (degrees)
+const float GOLDEN_ANGLE = 137.50776405;
+float goldenAngleHue(float baseHue, float n) {
+    return mod(baseHue + n * GOLDEN_ANGLE, 360.0);
+}
+
+// Generate palette color by index using golden angle
+vec3 goldenAnglePaletteHSL(float index, float basHue, float sat, float lit) {
+    float h = goldenAngleHue(basHue, index);
+    return vec3(h, sat, lit);
+}
+
+
+### ===== FILE: shaders/sketches/harmony_wheel.frag =====
+// harmony_wheel.frag
+// Renders a color harmony wheel showing the selected harmony type
+// Uniforms: u_time, u_resolution, u_baseHue, u_harmonyType (0-6)
+
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+uniform float u_baseHue;    // 0.0 - 360.0
+uniform float u_harmonyType; // 0=mono, 1=comp, 2=triadic, 3=split, 4=square, 5=analogous, 6=golden
+
+#include "hsl.glsl" // in real implementation, inline or use preprocessor
+
+const float PI = 3.14159265359;
+const float TAU = 6.28318530718;
+
+// Map harmony type to set of hue angles
+// (simplified inline version for standalone use)
+
+vec3 hsl2rgb(float h, float s, float l) {
+    // ... (paste hsl_to_rgb from hsl.glsl)
+    return vec3(h/360.0, s, l); // placeholder
+}
+
+void main() {
+    vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / min(u_resolution.x, u_resolution.y);
+    float dist = length(uv);
+    float angle = atan(uv.y, uv.x);
+    float hueDeg = mod(degrees(angle) + 360.0, 360.0);
+
+    // Outer ring: full hue spectrum
+    if (dist > 0.35 && dist < 0.48) {
+        vec3 col = hsl_to_rgb(vec3(hueDeg, 1.0, 0.5));
+        gl_FragColor = vec4(col, 1.0);
+        return;
+    }
+
+    // Inner area: show selected harmony colors as pie slices
+    // [Further implementation in full sketch]
+
+    gl_FragColor = vec4(vec3(0.05), 1.0);
+}
+
+
+### ===== FILE: utils/color_math.js =====
+/**
+ * color_math.js
+ * Core color math utilities — conversions, harmony, distance, palette operations
+ * ES module. No dependencies.
+ */
+
+export const TAU = Math.PI * 2;
+export const GOLDEN_ANGLE = 137.50776405;
+export const GOLDEN_RATIO = 1.6180339887;
+
+// ─── sRGB ↔ Linear ────────────────────────────────────────────────────────────
+
+export function srgbToLinear(x) {
+  return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+}
+
+export function linearToSrgb(x) {
+  return x <= 0.0031308 ? x * 12.92 : 1.055 * Math.pow(x, 1 / 2.4) - 0.055;
+}
+
+// ─── OKLab ────────────────────────────────────────────────────────────────────
+
+/**
+ * Convert linear sRGB [0,1] to OKLab
+ */
+export function linearSrgbToOklab([r, g, b]) {
+  const l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+  const m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+  const s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+  const l_ = Math.cbrt(l), m_ = Math.cbrt(m), s_ = Math.cbrt(s);
+  return [
+    0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_,
+    1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_,
+    0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_,
+  ];
+}
+
+/**
+ * Convert OKLab to linear sRGB [0,1]
+ */
+export function oklabToLinearSrgb([L, a, b]) {
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+  const l = l_ ** 3, m = m_ ** 3, s = s_ ** 3;
+  return [
+     4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+  ];
+}
+
+/**
+ * Convert sRGB hex string to OKLab
+ */
+export function hexToOklab(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  return linearSrgbToOklab([srgbToLinear(r), srgbToLinear(g), srgbToLinear(b)]);
+}
+
+/**
+ * Convert OKLab to sRGB hex string
+ */
+export function oklabToHex(lab) {
+  const [r, g, b] = oklabToLinearSrgb(lab).map(x =>
+    Math.round(Math.max(0, Math.min(1, linearToSrgb(x))) * 255)
+  );
+  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * OKLab → OKLCh (cylindrical)
+ */
+export function oklabToOklch([L, a, b]) {
+  const C = Math.sqrt(a * a + b * b);
+  const h = Math.atan2(b, a) * 180 / Math.PI;
+  return [L, C, ((h % 360) + 360) % 360];
+}
+
+/**
+ * OKLCh → OKLab
+ */
+export function oklchToOklab([L, C, h]) {
+  const hRad = h * Math.PI / 180;
+  return [L, C * Math.cos(hRad), C * Math.sin(hRad)];
+}
+
+/**
+ * Perceptual interpolation between two hex colors via OKLab
+ */
+export function oklabMix(hexA, hexB, t) {
+  const labA = hexToOklab(hexA);
+  const labB = hexToOklab(hexB);
+  const mixed = labA.map((v, i) => v + (labB[i] - v) * t);
+  return oklabToHex(mixed);
+}
+
+// ─── HSL ──────────────────────────────────────────────────────────────────────
+
+export function hslToRgb(h, s, l) {
+  h = ((h % 360) + 360) % 360;
+  if (s === 0) return [l, l, l];
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  const hk = h / 360;
+  return [hk + 1/3, hk, hk - 1/3].map(t => {
+    t = ((t % 1) + 1) % 1;
+    if (t < 1/6) return p + (q - p) * 6 * t;
+    if (t < 1/2) return q;
+    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    return p;
+  });
+}
+
+export function hslToHex(h, s, l) {
+  const [r, g, b] = hslToRgb(h, s, l);
+  return '#' + [r, g, b].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+}
+
+// ─── Harmony ──────────────────────────────────────────────────────────────────
+
+/**
+ * Generate harmony hue angles from a base hue
+ * @param {number} baseHue - degrees [0, 360)
+ * @param {string} type - harmony type id
+ * @returns {number[]} array of hue angles in degrees
+ */
+export function harmonyAngles(baseHue, type) {
+  const mod = h => ((h % 360) + 360) % 360;
+  const h = baseHue;
+  const harmonies = {
+    monochromatic:     [h],
+    complementary:     [h, mod(h + 180)],
+    split_complementary: [h, mod(h + 150), mod(h + 210)],
+    triadic:           [h, mod(h + 120), mod(h + 240)],
+    square_tetradic:   [h, mod(h + 90), mod(h + 180), mod(h + 270)],
+    rectangular:       [h, mod(h + 60), mod(h + 180), mod(h + 240)],
+    analogous:         [mod(h - 30), h, mod(h + 30)],
+    analogous_wide:    [mod(h - 60), mod(h - 30), h, mod(h + 30), mod(h + 60)],
+  };
+  return harmonies[type] ?? [h];
+}
+
+/**
+ * Generate golden angle palette
+ * @param {number} n - number of colors
+ * @param {number} baseHue - starting hue
+ * @param {number} saturation
+ * @param {number} lightness
+ * @returns {string[]} array of hex colors
+ */
+export function goldenAnglePalette(n, baseHue = 0, saturation = 0.8, lightness = 0.55) {
+  return Array.from({ length: n }, (_, i) => {
+    const h = ((baseHue + i * GOLDEN_ANGLE) % 360 + 360) % 360;
+    return hslToHex(h, saturation, lightness);
+  });
+}
+
+// ─── Delta E (CIELAB color difference) ───────────────────────────────────────
+
+/**
+ * Simple Delta E 76 approximation (Euclidean in OKLab, scaled)
+ * Not official CIEDE2000, but perceptually much better than RGB distance
+ */
+export function deltaE(hexA, hexB) {
+  const labA = hexToOklab(hexA);
+  const labB = hexToOklab(hexB);
+  return Math.sqrt(labA.reduce((sum, v, i) => sum + (v - labB[i]) ** 2, 0));
+}
+
+
+### ===== FILE: utils/sequence_to_palette.js =====
+/**
+ * sequence_to_palette.js
+ * Generate color palettes from mathematical sequences
+ * ES module.
+ */
+
+import { hslToHex, goldenAnglePalette, GOLDEN_ANGLE } from './color_math.js';
+
+// ─── Fibonacci ────────────────────────────────────────────────────────────────
+
+export function fibonacciSequence(n) {
+  const seq = [1, 1];
+  for (let i = 2; i < n; i++) seq.push(seq[i-1] + seq[i-2]);
+  return seq;
+}
+
+export function fibonacciRatios(n) {
+  const seq = fibonacciSequence(n + 1);
+  return seq.slice(0, n).map((v, i) => v / seq[i + 1]);
+}
+
+/**
+ * Palette from Fibonacci ratios as hue spacing
+ * Each hue = previous + (Fib(n)/Fib(n+1)) * 360°
+ */
+export function fibonacciRatioPalette(n, baseHue = 0, sat = 0.85, lit = 0.55) {
+  const ratios = fibonacciRatios(n);
+  const hues = [baseHue];
+  ratios.slice(0, n - 1).forEach(r => {
+    hues.push((hues[hues.length - 1] + r * 360) % 360);
+  });
+  return hues.map(h => hslToHex(h, sat, lit));
+}
+
+// ─── Primes ───────────────────────────────────────────────────────────────────
+
+export function sievePrimes(limit) {
+  const sieve = new Array(limit + 1).fill(true);
+  sieve[0] = sieve[1] = false;
+  for (let i = 2; i <= Math.sqrt(limit); i++) {
+    if (sieve[i]) for (let j = i*i; j <= limit; j += i) sieve[j] = false;
+  }
+  return sieve.reduce((acc, v, i) => v ? [...acc, i] : acc, []);
+}
+
+export function primeGaps(n) {
+  const primes = sievePrimes(n * 15); // rough upper bound
+  return primes.slice(0, n).map((p, i) => i === 0 ? 0 : p - primes[i-1]);
+}
+
+/**
+ * Palette where hue jumps are determined by gaps between primes
+ * Maps prime gap to hue step via a scale factor
+ */
+export function primePalette(n, baseHue = 0, scale = 30, sat = 0.85, lit = 0.55) {
+  const gaps = primeGaps(n);
+  const hues = [];
+  let h = baseHue;
+  gaps.forEach(gap => {
+    hues.push(h % 360);
+    h += gap * scale;
+  });
+  return hues.map(hue => hslToHex(hue, sat, lit));
+}
+
+// ─── Collatz ──────────────────────────────────────────────────────────────────
+
+export function collatzSequence(start) {
+  const seq = [start];
+  let n = start;
+  while (n !== 1) {
+    n = n % 2 === 0 ? n / 2 : 3 * n + 1;
+    seq.push(n);
+  }
+  return seq;
+}
+
+/**
+ * Palette from Collatz sequence — hue angles derived from sequence values mod 360
+ */
+export function collatzPalette(startNum, n, sat = 0.9, lit = 0.55) {
+  const seq = collatzSequence(startNum);
+  return seq.slice(0, n).map(v => hslToHex(v % 360, sat, lit));
+}
+
+// ─── Golden Angle (re-export with name) ──────────────────────────────────────
+export { goldenAnglePalette };
+
+// ─── Palette preview (terminal) ───────────────────────────────────────────────
+export function previewPalette(hexColors, label = '') {
+  if (typeof process !== 'undefined') {
+    console.log(`\n${label}`);
+    hexColors.forEach(hex => {
+      const r = parseInt(hex.slice(1,3), 16);
+      const g = parseInt(hex.slice(3,5), 16);
+      const b = parseInt(hex.slice(5,7), 16);
+      console.log(`\x1b[48;2;${r};${g};${b}m    \x1b[0m ${hex}`);
+    });
+  }
+}
+
+
+### ===== FILE: examples/fibonacci_palette.html =====
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fibonacci Palette Generator — color_systems</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; color: #fff; font-family: monospace; padding: 2rem; }
+  h1 { font-size: 1.2rem; color: #aaa; margin-bottom: 1.5rem; }
+  .controls { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+  label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem; color: #888; }
+  input[type=range] { width: 200px; accent-color: #0ff; }
+  input[type=number] { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 8px; width: 80px; }
+  select { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 8px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+  .swatch { width: 80px; height: 80px; border-radius: 4px; display: flex; align-items: flex-end; padding: 4px; font-size: 0.65rem; color: rgba(255,255,255,0.7); text-shadow: 0 0 4px #000; cursor: pointer; transition: transform 0.1s; }
+  .swatch:hover { transform: scale(1.05); }
+  .info { margin-top: 2rem; font-size: 0.75rem; color: #555; line-height: 1.6; }
+</style>
+</head>
+<body>
+<h1>color_systems / fibonacci_palette.html</h1>
+<div class="controls">
+  <label>Count <input type="range" id="count" min="3" max="24" value="8"><span id="countVal">8</span></label>
+  <label>Base Hue° <input type="range" id="baseHue" min="0" max="359" value="0"><span id="hueVal">0</span></label>
+  <label>Saturation <input type="range" id="sat" min="0" max="100" value="85"><span id="satVal">85%</span></label>
+  <label>Lightness <input type="range" id="lit" min="10" max="90" value="55"><span id="litVal">55%</span></label>
+  <label>Method
+    <select id="method">
+      <option value="golden">Golden Angle</option>
+      <option value="fibRatio">Fibonacci Ratios</option>
+      <option value="prime">Prime Gaps</option>
+      <option value="collatz">Collatz Sequence</option>
+    </select>
+  </label>
+</div>
+<div class="swatches" id="swatches"></div>
+<div class="info" id="info"></div>
+
+<script type="module">
+const GOLDEN_ANGLE = 137.50776405;
+const mod = (h) => ((h % 360) + 360) % 360;
+
+function hslToHex(h, s, l) {
+  h = mod(h); s /= 100; l /= 100;
+  if (s === 0) { const v = Math.round(l * 255).toString(16).padStart(2,'0'); return '#'+v+v+v; }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  return '#' + [h/360 + 1/3, h/360, h/360 - 1/3].map(t => {
+    t = ((t % 1) + 1) % 1;
+    let v = t < 1/6 ? p+(q-p)*6*t : t < 0.5 ? q : t < 2/3 ? p+(q-p)*(2/3-t)*6 : p;
+    return Math.round(v * 255).toString(16).padStart(2, '0');
+  }).join('');
+}
+
+function goldenPalette(n, base, s, l) {
+  return Array.from({length: n}, (_, i) => hslToHex(base + i * GOLDEN_ANGLE, s, l));
+}
+
+function fibRatioPalette(n, base, s, l) {
+  const fib = [1, 1]; for (let i = 2; i < n+1; i++) fib.push(fib[i-1]+fib[i-2]);
+  const hues = [base];
+  for (let i = 0; i < n-1; i++) hues.push(hues[hues.length-1] + (fib[i]/fib[i+1]) * 360);
+  return hues.map(h => hslToHex(h, s, l));
+}
+
+function primePalette(n, base, s, l) {
+  const sieve = new Array(n * 15 + 2).fill(true); sieve[0]=sieve[1]=false;
+  for (let i=2;i<=Math.sqrt(sieve.length);i++) if(sieve[i]) for(let j=i*i;j<sieve.length;j+=i) sieve[j]=false;
+  const primes = sieve.reduce((a,v,i)=>v?[...a,i]:a,[]).slice(0,n);
+  let h = base;
+  return primes.map((p,i) => { const hex = hslToHex(h,s,l); h += (i===0?0:p-primes[i-1])*30; return hex; });
+}
+
+function collatzPalette(n, base, s, l) {
+  let cur = Math.round(base) || 27; const seq=[cur];
+  while(seq.length < n*3 && cur !== 1) { cur = cur%2===0?cur/2:3*cur+1; seq.push(cur); }
+  return seq.slice(0,n).map(v => hslToHex(v%360,s,l));
+}
+
+function render() {
+  const n = +document.getElementById('count').value;
+  const base = +document.getElementById('baseHue').value;
+  const s = +document.getElementById('sat').value;
+  const l = +document.getElementById('lit').value;
+  const method = document.getElementById('method').value;
+
+  document.getElementById('countVal').textContent = n;
+  document.getElementById('hueVal').textContent = Math.round(base) + '°';
+  document.getElementById('satVal').textContent = s + '%';
+  document.getElementById('litVal').textContent = l + '%';
+
+  let colors;
+  if (method === 'golden') colors = goldenPalette(n, base, s, l);
+  else if (method === 'fibRatio') colors = fibRatioPalette(n, base, s, l);
+  else if (method === 'prime') colors = primePalette(n, base, s, l);
+  else colors = collatzPalette(n, base, s, l);
+
+  const container = document.getElementById('swatches');
+  container.innerHTML = '';
+  colors.forEach(hex => {
+    const div = document.createElement('div');
+    div.className = 'swatch';
+    div.style.background = hex;
+    div.textContent = hex;
+    div.onclick = () => navigator.clipboard.writeText(hex);
+    container.appendChild(div);
+  });
+
+  document.getElementById('info').textContent =
+    `Method: ${method} | ${n} colors | Base: ${Math.round(base)}° | Click swatch to copy hex`;
+}
+
+document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', render));
+render();
+</script>
+</body>
+</html>
+
+
+### ===== FILE: docs/color_spaces.md =====
+# Color Spaces
+
+## The Problem with RGB
+
+sRGB is not how your eyes work. It's an engineering compromise from the 1990s, based on CRT phosphors. When you interpolate between red and green in sRGB, you get a brown muddy middle. When you rotate hues in HSL, bright yellow and dark blue get treated as equal. None of this is perceptually true.
+
+Every color space in this repo is documented as:
+1. **What it actually is** (the math)
+2. **What it's good for** (use cases)
+3. **What it gets wrong** (failure modes)
+4. **How to convert** (matrices and formulas)
+
+---
+
+## The Stack (from physics to display)
+
+```
+Physical light (spectral power distribution)
+    ↓ CIE 1931 XYZ (device-independent, models human cone response)
+    ↓ CIELAB / OKLab (perceptually uniform transforms of XYZ)
+    ↓ Linear sRGB (physically linear, based on XYZ)
+    ↓ sRGB (gamma-encoded for display)
+    ↓ Your monitor (with its own gamut and white point)
+```
+
+Every space in this chain is useful for different things.
+
+---
+
+## Which Space for What
+
+| Task | Use |
+|------|-----|
+| Gradient interpolation | OKLab |
+| Hue rotation | OKLCh (cylindrical OKLab) |
+| Harmony math | HSL (hue angle arithmetic) |
+| Accessibility / contrast | CIELAB (WCAG uses relative luminance) |
+| Color difference | ΔE in CIELAB or OKLab |
+| GLSL gradients | Linear sRGB interpolation minimum; OKLab for quality |
+| Display output | sRGB (gamma-encoded) |
+| Gamut visualization | CIE XYZ |
+
+---
+
+## OKLab vs CIELAB
+
+Both are perceptually uniform. OKLab is newer (2020) and better:
+- Better hue uniformity (CIELAB has hue shifts in blue region)
+- Simpler math (no division, no arctan for basic ops)
+- Faster in GLSL
+- Still has the same L (lightness), a (green-red), b (blue-yellow) structure
+
+Use OKLab for everything new. Use CIELAB if you're computing WCAG contrast or Delta-E 2000 (industry standard color difference).
+
+---
+
+## The Gamut Problem
+
+Your monitor can only display a subset of all visible colors. sRGB covers ~36% of the visible gamut. Display P3 covers ~45%. Everything outside those boundaries gets **clamped** — silently. 
+
+This means:
+- Fluorescent colors often can't be represented in sRGB
+- Some of your most vivid mental images are physically impossible on screen
+- Colors that look great in math may look flat when rendered
+
+Gamut mapping is the art of gracefully degrading out-of-gamut colors. See `data/gamuts/` for geometry data.
+
+
+### ===== FILE: docs/sequence_palettes.md =====
+# Mathematical Sequence Palettes
+
+## The Core Idea
+
+Most palette generators pick colors by eye or use fixed rules (triadic, analogous, etc.). This repo generates palettes from **mathematical sequences** — using the structure of the sequence to determine hue spacing, saturation variation, or lightness curves.
+
+The result: palettes that have **underlying mathematical coherence** rather than arbitrary aesthetic choices. They often look weird and unexpected in ways that feel *right*.
+
+---
+
+## Golden Angle Palettes
+
+The golden angle ≈ 137.508° is derived from the golden ratio φ:
+
+```
+golden_angle = 360° × (1 - 1/φ) = 360° / φ²
+```
+
+It's the angle between successive seeds in a sunflower head, leaf spirals, and pinecone scales. It's irrational (never repeats as a fraction of 360°), which means:
+- N colors placed at golden angle intervals are **maximally spread** around the wheel
+- No two colors will be at the same hue until you've gone through all of them
+- Adding more colors fills gaps rather than clustering
+
+**This is the best general-purpose multi-color palette algorithm.** Use it when you need N visually distinct colors.
+
+---
+
+## Fibonacci Ratio Palettes
+
+Instead of the golden angle, use successive Fibonacci ratios (1/2, 2/3, 3/5, 5/8...) as hue step sizes. The ratios converge toward 1/φ, so:
+- Early in the sequence: large, irregular jumps
+- Late in the sequence: approaches golden angle behavior
+
+Interesting as an **animation driver** — cycle through as a sequence over time.
+
+---
+
+## Prime Gap Palettes
+
+Prime gaps are the differences between consecutive primes: [1, 2, 2, 4, 2, 4, 2, 4, 6, 2, 6, ...]
+
+Multiply each gap by a scale factor to get hue steps. Result:
+- Irregular but deterministic
+- Controlled chaos without true randomness
+- Longer runs of small gaps (boring sequences) punctuated by jumps
+
+Scale factor tunes the drama level. Low scale = clustered, high scale = wild.
+
+---
+
+## Collatz Palettes
+
+The Collatz sequence from a starting number n:
+- If n is even: n → n/2
+- If n is odd: n → 3n+1
+- Repeat until n = 1
+
+No one knows why all starting numbers eventually reach 1. Using sequence values mod 360 as hues gives strange, non-repeating color sequences that eventually terminate. The 27-sequence has 111 steps before reaching 1.
+
+Starting numbers with long sequences are the most visually complex.
+
+---
+
+## Cross-repo connection
+
+The sequence data in `THE-LISTS` (mathematical Rosetta Stone) is the upstream source for many of these generators. `color_systems` is where that data gets mapped to perceptual color space and becomes usable in shaders and sketches.
