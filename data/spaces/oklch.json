@@ -1,0 +1,90 @@
+{
+  "id": "oklch",
+  "name": "OKLCh",
+  "author": "Björn Ottosson",
+  "year": 2020,
+  "reference": "https://bottosson.github.io/posts/oklab/",
+  "description": "Cylindrical form of OKLab. L = perceptual lightness, C = chroma (colorfulness), h = hue angle in degrees. The most useful space for generative color work: rotate h to change hue, scale C to desaturate, adjust L to change brightness — all perceptually uniform.",
+  "components": {
+    "L": {
+      "name": "Lightness",
+      "range": [0, 1],
+      "notes": "0 = black, 1 = white. Perceptually linear — same as OKLab L."
+    },
+    "C": {
+      "name": "Chroma",
+      "range": [0, 0.4],
+      "notes": "0 = achromatic (gray), ~0.4 = maximally saturated (varies by hue and L). Not normalized — actual maximum depends on hue and lightness."
+    },
+    "h": {
+      "name": "Hue angle",
+      "range": [0, 360],
+      "unit": "degrees",
+      "key_hues": {
+        "0": "Pink/Red",
+        "29": "Red",
+        "60": "Orange-Red",
+        "90": "Orange-Yellow",
+        "130": "Yellow-Green",
+        "145": "Green",
+        "195": "Cyan",
+        "240": "Sky Blue",
+        "264": "Blue",
+        "302": "Purple",
+        "328": "Magenta",
+        "360": "Pink/Red"
+      },
+      "note": "OKLCh hue angles do NOT match HSL hue angles. Yellow is ~109°, not 60°."
+    }
+  },
+  "relationship_to_oklab": {
+    "C_formula": "C = sqrt(a² + b²)",
+    "h_formula": "h = atan2(b, a) × 180 / π, normalized to [0, 360)",
+    "to_oklab": {
+      "a": "C × cos(h × π / 180)",
+      "b": "C × sin(h × π / 180)"
+    }
+  },
+  "conversion_chain": {
+    "from_srgb": "sRGB → linearize → OKLab → OKLCh",
+    "to_srgb": "OKLCh → OKLab → linear sRGB → gamma encode → sRGB"
+  },
+  "conversion_matrices": {
+    "srgb_to_lms": [
+      [0.4122214708, 0.5363325363, 0.0514459929],
+      [0.2119034982, 0.6806995451, 0.1073969566],
+      [0.0883024619, 0.2817188376, 0.6299787005]
+    ],
+    "lms_to_oklab": [
+      [0.2104542553, 0.7936177850, -0.0040720468],
+      [1.9779984951, -2.4285922050, 0.4505937099],
+      [0.0259040371, 0.7827717662, -0.8086757660]
+    ]
+  },
+  "use_cases": [
+    "Hue rotation that preserves perceived brightness and saturation",
+    "Generating harmony angles that look evenly spaced to the eye",
+    "Chroma manipulation — fade to gray without changing hue or lightness",
+    "Palette generation with equal perceptual spacing",
+    "Gamut mapping (reduce C until color fits in sRGB)",
+    "Animated color cycling with stable lightness"
+  ],
+  "known_issues": [
+    "Hue angles don't correspond to HSL hue angles — yellow is ~109°, not 60°",
+    "Maximum chroma varies by hue and lightness — no single safe chroma value",
+    "Gamut mapping required before converting to sRGB for high-chroma values",
+    "Not standardized by CIE — an author-defined improvement over CIELAB",
+    "Polar form means hue arithmetic wraps at 360°, requiring mod operations"
+  ],
+  "vs_hsl": {
+    "advantage": "Hue rotation actually looks uniform. Changing L changes brightness, not saturation. Triadic harmony at equal C looks actually equal.",
+    "disadvantage": "Harder to reason about raw values. Yellow is at h=109°, not 60°. Chroma C is not bounded like HSL saturation.",
+    "recommendation": "Use OKLCh for all creative color manipulation. Use HSL only for harmony angle math and final display mapping."
+  },
+  "css_support": {
+    "syntax": "oklch(L C h)",
+    "example": "oklch(0.7 0.2 264)  /* perceptual blue */",
+    "note": "CSS Color Level 4. Supported in all modern browsers since 2023."
+  },
+  "art_notes": "OKLCh is the creative color space you've always wanted but didn't know existed. Spin the h dial and the hue changes uniformly. Pull the C slider and the color fades to gray without going greenish. Nudge L and the brightness changes cleanly. This is color as it actually works — not as HSL pretends it does. Use this for any interactive color picker or palette generator where you want results that look right, not results that are numerically tidy."
+}
